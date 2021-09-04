@@ -8,10 +8,10 @@ import 'package:final_demo/insfrastructure/repository/repository.dart';
 import 'package:http/http.dart' as http;
 
 void main() {
-  var data_provider = TransactionDataProvider(httpClient: http.Client());
-  var repo = TransactionRepository(dataProvider: data_provider);
+  var data_provider = LoanDataProvider(httpClient: http.Client());
+  var repo = LoanRepository(dataProvider: data_provider);
 
-  repo.agentPayment();
+  repo.loanPayInFull();
 
   runApp(
     MaterialApp(

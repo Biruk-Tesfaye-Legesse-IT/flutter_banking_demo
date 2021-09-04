@@ -8,8 +8,6 @@ class TransactionDataProvider {
   final _baseUrl = baseURL;
   final http.Client httpClient;
 
-  // UserDataProvider({required this.httpClient}) : assert(httpClient != null);
-
   TransactionDataProvider({required this.httpClient});
 
   // ===========================getHistory========================================

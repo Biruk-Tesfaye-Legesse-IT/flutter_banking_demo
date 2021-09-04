@@ -8,11 +8,7 @@ class AccountDataProvider {
   final _baseUrl = baseURL;
   final http.Client httpClient;
 
-  // UserDataProvider({required this.httpClient}) : assert(httpClient != null);
-
   AccountDataProvider({required this.httpClient});
-
-  // ===========================getHistory========================================
 
   Future login(String username, String password) async {
     var basicAuth = 'Basic ' + base64Encode(utf8.encode('$username:$password'));
