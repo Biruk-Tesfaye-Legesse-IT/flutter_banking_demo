@@ -18,6 +18,10 @@ class AccountRepository {
   Future registerClient(Client client) async {
     return await dataProvider.registerClient(client);
   }
+
+  Future getAccount(String accountNumber) async {
+    return await dataProvider.getAccount(accountNumber);
+  }
 }
 
 class NetworkError extends Error {}

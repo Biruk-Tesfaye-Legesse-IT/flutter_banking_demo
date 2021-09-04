@@ -18,6 +18,7 @@ class Admin extends Equatable {
     required this.email,
     required this.address,
     required this.isBlocked, //who's gonna block admin tho?
+    required this.bankBudget,
   });
 
   final int? adminID;
@@ -31,6 +32,7 @@ class Admin extends Equatable {
   final String phoneNumber;
   final String address;
   final bool isBlocked;
+  final double? bankBudget;
 
   @override
   List<Object?> get props => [
@@ -43,7 +45,8 @@ class Admin extends Equatable {
         email,
         phoneNumber,
         address,
-        isBlocked
+        isBlocked,
+        bankBudget
       ];
 
   factory Admin.fromJson(Map<String, dynamic> json) {
@@ -58,10 +61,11 @@ class Admin extends Equatable {
         dob: json['DOB'],
         email: json['email'],
         phoneNumber: json['phone_number'],
-        isBlocked: json['is_blocked']);
+        isBlocked: json['is_blocked'],
+        bankBudget: json['bank_budget']);
   }
 
   @override
   String toString() =>
-      'Admin { admin_id: $adminID, first_name: $firstName, last_name: $lastName, fullname: $fullName,role: $role, address: $address, DOB: $dob, is_blocked:$isBlocked}';
+      'Admin { admin_id: $adminID, first_name: $firstName, last_name: $lastName, fullname: $fullName,role: $role, address: $address, DOB: $dob, is_blocked:$isBlocked, bank_budget: $bankBudget}';
 }

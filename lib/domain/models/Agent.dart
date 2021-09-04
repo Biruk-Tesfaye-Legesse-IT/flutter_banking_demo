@@ -20,8 +20,8 @@ class Agent extends Equatable {
     this.registeredUsers,
   });
 
-  final String? agentID; // Just added this
-  final String? accountNumber;
+  final int? agentID; // Just added this
+  final int? accountNumber;
   final String firstName;
   final String lastName;
   final String? fullName;
@@ -31,7 +31,7 @@ class Agent extends Equatable {
   final String phoneNumber;
   final String address;
   final bool? isBlocked;
-  final double budget;
+  final double? budget;
   final List? registeredUsers;
 
   @override
@@ -64,7 +64,11 @@ class Agent extends Equatable {
       phoneNumber: json['phone_number'],
       isBlocked: json['is_blocked'],
       budget: json['budget'],
-      registeredUsers: json['registered_users']);
+      registeredUsers: json['registered_clients'] == Null
+          ? json['registered_clients']
+              .map((account) => Client.fromJson(account))
+              .toList()
+          : []);
 
   Map<String, dynamic> toJson() => {
         'first_name': firstName,

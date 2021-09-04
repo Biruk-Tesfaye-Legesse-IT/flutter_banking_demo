@@ -33,7 +33,7 @@ class Client extends Equatable {
   final phoneNumber;
   final String address;
   final bool? isBlocked;
-  final double balance;
+  final double? balance;
   final String? accountType;
   final List? beneficiaries; // I doubt this just made it to hold space
   final String? registeredBy;
@@ -70,7 +70,9 @@ class Client extends Equatable {
       isBlocked: json['is_blocked'],
       balance: json['balance'],
       accountType: json['account_type'],
-      beneficiaries: json['saved'],
+      beneficiaries: json['saved'] == Null
+          ? json['saved'].map((account) => Client.fromJson(account)).toList()
+          : [],
       registeredBy: json['registered_by']);
 
   Map<String, dynamic> toJson() => {

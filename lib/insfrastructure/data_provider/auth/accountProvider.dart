@@ -31,8 +31,10 @@ class AccountDataProvider {
         print(Client.fromJson(data));
         return Client.fromJson(data);
       } else if (data['role'] == 'agent') {
+        print(Agent.fromJson(data));
         return Agent.fromJson(data);
-      } else if (data['admin'] == 'admin') {
+      } else if (data['role'] == 'admin') {
+        print(Admin.fromJson(data));
         return Admin.fromJson(data);
       } else {
         return "No user found";
@@ -78,6 +80,35 @@ class AccountDataProvider {
       return jsonDecode(response.body);
     } else {
       throw Exception("Failed to create client account");
+    }
+  }
+
+  Future getAccount(String accountNumber) async {
+    final response = await httpClient.get(
+      Uri.http('$_baseUrl', '/api/account/$accountNumber'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'token':
+            "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50X251bWJlciI6MTAwMDAwMDAwOCwiZXhwIjoxNjMwNzk1MDg3fQ.Do0xuRUkKKO4_33Qf52zURSMmCvIbVJy8JNSivVSm2c"
+      },
+    );
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      if (data['role'] == 'client') {
+        print(Client.fromJson(data));
+        return Client.fromJson(data);
+      } else if (data['role'] == 'agent') {
+        print(Agent.fromJson(data));
+        return Agent.fromJson(data);
+      } else if (data['role'] == 'admin') {
+        print(Admin.fromJson(data));
+        return Admin.fromJson(data);
+      } else {
+        return "No user found";
+      }
+    } else {
+      throw Exception('Failed to get account information.');
     }
   }
 }
