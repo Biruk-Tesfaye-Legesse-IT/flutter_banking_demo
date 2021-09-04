@@ -5,29 +5,29 @@ import 'package:flutter/material.dart';
 class Client extends Equatable {
   const Client({
     // required this.id,
-    this.accountNumber,
-    this.firstName,
-    this.lastName,
+    required this.accountNumber,
+    required this.firstName,
+    required this.lastName,
     this.fullName,
-    this.role,
-    this.dob,
-    this.address,
-    this.isBlocked,
-    this.balance,
-    this.accountType,
+    this.role, // inferred from sender
+    required this.dob,
+    required this.address,
+    this.isBlocked, // Can't decide if this is nullable because we don't have it when we send
+    required this.balance,
+    this.accountType, //inferred from initial deposit
     this.beneficiaries,
   });
 
   // final int id;
-  final int? accountNumber;
-  final String? firstName;
-  final String? lastName;
+  final int accountNumber;
+  final String firstName;
+  final String lastName;
   final String? fullName;
-  final String? role;
-  final String? dob;
-  final String? address;
+  final int? role;
+  final String dob;
+  final String address;
   final bool? isBlocked;
-  final double? balance;
+  final double balance;
   final String? accountType;
   final List<Client>? beneficiaries; // I doubt this just made it to hold space
 
@@ -51,7 +51,6 @@ class Client extends Equatable {
         accountNumber: json['account_number'],
         firstName: json['first_name'],
         lastName: json['last_name'],
-        fullName: json['fullname'],
         role: json['role'],
         address: json['address'],
         dob: json['DOB'],

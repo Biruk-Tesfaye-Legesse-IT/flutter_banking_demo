@@ -5,33 +5,33 @@ import 'package:flutter/material.dart';
 @immutable
 class Agent extends Equatable {
   Agent({
-    required this.agentID,
-    required this.accountNumber,
+    this.agentID,
+    this.accountNumber,
     required this.firstName,
     required this.lastName,
-    required this.fullName,
-    required this.role,
+    this.fullName,
+    required this.role, //inferred from sender
     required this.dob,
     required this.address,
-    required this.isBlocked,
+    this.isBlocked, // Can't decide
     required this.budget,
     required this.registeredUsers,
   });
 
-  final String agentID; // Just added this
-  final int accountNumber;
+  final String? agentID; // Just added this
+  final int? accountNumber;
   final String firstName;
   final String lastName;
-  final String fullName;
+  final String? fullName;
   final String role;
   final String dob;
   final String address;
-  final bool isBlocked;
+  final bool? isBlocked; 
   final double budget;
   final List<Client> registeredUsers;
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         agentID,
         accountNumber,
         firstName,
@@ -45,8 +45,8 @@ class Agent extends Equatable {
         registeredUsers,
       ];
 
-  factory Agent.fromJson(Map<String, dynamic> json) {
-    return Agent(
+   factory Agent.fromJson(Map<String, dynamic> json) => Agent(
+    
         agentID: json['agent_id'],
         accountNumber: json['account_number'],
         firstName: json['first_name'],
@@ -58,6 +58,14 @@ class Agent extends Equatable {
         isBlocked: json['is_blocked'],
         budget: json['budget'],
         registeredUsers: json['registered_users']);
+
+          Map<String, dynamic> toJson() => {
+        'first_name': firstName,
+        'last_name': lastName,
+        'address': address,
+        'DOB': dob,
+        'budget': budget,
+      };
   }
 
   @override

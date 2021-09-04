@@ -5,14 +5,19 @@ import 'package:flutter/material.dart';
 class TransactionHistory extends Equatable {
   TransactionHistory({
     this.transactionId,
-    this.accountNumber, // I assumed it was account Number but which one??
-    this.description, //It says text I assumed it was description
+    this.accountNumber,
+    required this.relatedAccount,
+    required this.transactionType, // I assumed it was account Number but which one??
+    this.remark, //It says text I assumed it was description
     this.date,
   });
 
   final int? transactionId;
   final int? accountNumber;
-  final String? description;
+  final int? relatedAccount;
+  final String transactionType;
+  final String? remark;
+
   final String? date;
   // final String? error;
   // Assuming there is no operation on frontend regarding date
@@ -21,7 +26,7 @@ class TransactionHistory extends Equatable {
   List<Object?> get props => [
         transactionId,
         accountNumber,
-        description,
+        remark,
         date,
       ];
 
@@ -33,7 +38,7 @@ class TransactionHistory extends Equatable {
       TransactionHistory(
         transactionId: json['id'],
         accountNumber: json['account_id'], //assuming that is what it means
-        description: json['text'], //assuming that is what it means
+        remark: json['text'], //assuming that is what it means
         date: json['date'],
       );
 
