@@ -26,7 +26,7 @@ class Agent extends Equatable {
   final String role;
   final String dob;
   final String address;
-  final bool? isBlocked; 
+  final bool? isBlocked;
   final double budget;
   final List<Client> registeredUsers;
 
@@ -45,30 +45,28 @@ class Agent extends Equatable {
         registeredUsers,
       ];
 
-   factory Agent.fromJson(Map<String, dynamic> json) => Agent(
-    
-        agentID: json['agent_id'],
-        accountNumber: json['account_number'],
-        firstName: json['first_name'],
-        lastName: json['last_name'],
-        fullName: json['fullname'], // Don't know what will be received so...
-        role: json['role'],
-        address: json['address'],
-        dob: json['DOB'],
-        isBlocked: json['is_blocked'],
-        budget: json['budget'],
-        registeredUsers: json['registered_users']);
+  factory Agent.fromJson(Map<String, dynamic> json) => Agent(
+      agentID: json['agent_id'],
+      accountNumber: json['account_number'],
+      firstName: json['first_name'],
+      lastName: json['last_name'],
+      fullName: json['fullname'], // Don't know what will be received so...
+      role: json['role'],
+      address: json['address'],
+      dob: json['DOB'],
+      isBlocked: json['is_blocked'],
+      budget: json['budget'],
+      registeredUsers: json['registered_users']);
 
-          Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         'first_name': firstName,
         'last_name': lastName,
         'address': address,
         'DOB': dob,
         'budget': budget,
       };
-  }
-
-  @override
-  String toString() =>
-      'Agent { agent_id: $agentID, account_number: $accountNumber, first_name: $firstName, last_name: $lastName, fullname: $fullName,role: $role, address: $address, DOB: $dob, is_blocked:$isBlocked, budget:$budget, registered_users:$registeredUsers}';
 }
+
+@override
+String toString() =>
+    'Agent { agent_id: , account_number: , first_name: $firstName, last_name: $lastName, fullname: $fullName,role: $role, address: $address, DOB: $dob, is_blocked:$isBlocked, budget:$budget, registered_users:$registeredUsers}';

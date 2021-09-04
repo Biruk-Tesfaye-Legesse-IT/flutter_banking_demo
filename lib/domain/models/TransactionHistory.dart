@@ -7,8 +7,8 @@ class TransactionHistory extends Equatable {
     this.transactionId,
     this.accountNumber,
     required this.relatedAccount,
-    required this.transactionType, // I assumed it was account Number but which one??
-    this.remark, //It says text I assumed it was description
+    required this.transactionType,
+    this.remark, //It says text I assumed it was remark
     this.date,
   });
 
@@ -19,13 +19,16 @@ class TransactionHistory extends Equatable {
   final String? remark;
 
   final String? date;
-  // final String? error;
   // Assuming there is no operation on frontend regarding date
+
+  // final String? error;
 
   @override
   List<Object?> get props => [
         transactionId,
         accountNumber,
+        relatedAccount,
+        transactionType,
         remark,
         date,
       ];
@@ -37,17 +40,18 @@ class TransactionHistory extends Equatable {
   factory TransactionHistory.fromJson(Map<String, dynamic> json) =>
       TransactionHistory(
         transactionId: json['id'],
-        accountNumber: json['account_id'], //assuming that is what it means
+        accountNumber: json['account_id'],
+        relatedAccount: json['related_account'],
+        transactionType: json['transaction_type'],
         remark: json['text'], //assuming that is what it means
         date: json['date'],
       );
 
   Map<String, dynamic> toJson() => {
-        // 'first_name': firstName,
-        // 'last_name': lastName,
-        // 'address': address,
-        // 'DOB': dob,
-        // 'balance': balance,
+        'account_id': accountNumber,
+        'related_account': relatedAccount,
+        'transaction_type': transactionType,
+        'text': remark,
       };
 
   @override

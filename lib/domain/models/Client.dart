@@ -1,11 +1,12 @@
 import 'package:equatable/equatable.dart';
+import 'package:final_demo/domain/models/Agent.dart';
 import 'package:flutter/material.dart';
 
 @immutable
 class Client extends Equatable {
   const Client({
     // required this.id,
-    required this.accountNumber,
+    this.accountNumber,
     required this.firstName,
     required this.lastName,
     this.fullName,
@@ -15,11 +16,12 @@ class Client extends Equatable {
     this.isBlocked, // Can't decide if this is nullable because we don't have it when we send
     required this.balance,
     this.accountType, //inferred from initial deposit
-    this.beneficiaries,
+    this.beneficiaries, //acquired later
+    this.registeredBy,
   });
 
   // final int id;
-  final int accountNumber;
+  final int? accountNumber;
   final String firstName;
   final String lastName;
   final String? fullName;
@@ -30,6 +32,7 @@ class Client extends Equatable {
   final double balance;
   final String? accountType;
   final List<Client>? beneficiaries; // I doubt this just made it to hold space
+  final Agent? registeredBy;
 
   @override
   List<Object?> get props => [
@@ -44,21 +47,22 @@ class Client extends Equatable {
         isBlocked,
         balance,
         accountType,
-        beneficiaries
+        beneficiaries,
+        registeredBy,
       ];
 
   factory Client.fromJson(Map<String, dynamic> json) => Client(
-        accountNumber: json['account_number'],
-        firstName: json['first_name'],
-        lastName: json['last_name'],
-        role: json['role'],
-        address: json['address'],
-        dob: json['DOB'],
-        isBlocked: json['is_blocked'],
-        balance: json['balance'],
-        accountType: json['account_type'],
-        beneficiaries: json['saved'],
-      );
+      accountNumber: json['account_number'],
+      firstName: json['first_name'],
+      lastName: json['last_name'],
+      role: json['role'],
+      address: json['address'],
+      dob: json['DOB'],
+      isBlocked: json['is_blocked'],
+      balance: json['balance'],
+      accountType: json['account_type'],
+      beneficiaries: json['saved'],
+      registeredBy: json['registered_by']);
 
   Map<String, dynamic> toJson() => {
         'first_name': firstName,
@@ -66,6 +70,7 @@ class Client extends Equatable {
         'address': address,
         'DOB': dob,
         'balance': balance,
+        'registered_by': registeredBy,
       };
   @override
   String toString() =>

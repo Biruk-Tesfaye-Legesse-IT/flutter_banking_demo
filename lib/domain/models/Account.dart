@@ -23,7 +23,7 @@ class Account extends Equatable {
   final bool isBlocked;
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         accountNumber,
         firstName,
         lastName,
