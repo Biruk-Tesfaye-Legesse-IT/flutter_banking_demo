@@ -5,13 +5,15 @@ import 'package:flutter/material.dart';
 @immutable
 class Client extends Equatable {
   const Client({
-    // required this.id,
+    this.clientID,
     this.accountNumber,
     required this.firstName,
     required this.lastName,
     this.fullName,
     this.role, // inferred from sender
     required this.dob,
+    required this.email,
+    required this.phoneNumber,
     required this.address,
     this.isBlocked, // Can't decide if this is nullable because we don't have it when we send
     required this.balance,
@@ -20,13 +22,15 @@ class Client extends Equatable {
     this.registeredBy,
   });
 
-  // final int id;
+  final int? clientID;
   final int? accountNumber;
   final String firstName;
   final String lastName;
   final String? fullName;
   final role;
   final String dob;
+  final email;
+  final phoneNumber;
   final String address;
   final bool? isBlocked;
   final double balance;
@@ -36,13 +40,15 @@ class Client extends Equatable {
 
   @override
   List<Object?> get props => [
-        // id,
+        clientID,
         accountNumber,
         firstName,
         lastName,
         fullName,
         role,
         dob,
+        email,
+        phoneNumber,
         address,
         isBlocked,
         balance,
@@ -52,12 +58,15 @@ class Client extends Equatable {
       ];
 
   factory Client.fromJson(Map<String, dynamic> json) => Client(
+      clientID: json['id'],
       accountNumber: json['account_number'],
       firstName: json['first_name'],
       lastName: json['last_name'],
       role: json['role'],
       address: json['address'],
       dob: json['DOB'],
+      email: json['email'],
+      phoneNumber: json['phone_number'],
       isBlocked: json['is_blocked'],
       balance: json['balance'],
       accountType: json['account_type'],
@@ -68,6 +77,8 @@ class Client extends Equatable {
         'first_name': firstName,
         'last_name': lastName,
         'address': address,
+        'email': email,
+        'phone_number': phoneNumber,
         'DOB': dob,
         'balance': balance,
         'registered_by': registeredBy,

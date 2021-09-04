@@ -28,6 +28,7 @@ class AccountDataProvider {
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
       if (data['role'] == 'client') {
+        print(Client.fromJson(data));
         return Client.fromJson(data);
       } else if (data['role'] == 'agent') {
         return Agent.fromJson(data);
@@ -46,23 +47,42 @@ class AccountDataProvider {
 
   Future registerAgent(Agent agent) async {
     final response = await httpClient.post(
-      Uri.http('$_baseUrl', '/api/admin/register_agent'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'token': ""
-      },
-      body: jsonEncode(<String, dynamic>{
-        
-      }
+        Uri.http('$_baseUrl', '/api/admin/register_agent'),
+        headers: <String, String>{
+          "Content-Type": "application/json",
+          'token':
+              "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50X251bWJlciI6MTAwMSwiZXhwIjoxNjMwNzYwNjMyfQ.GZun0AGl9BD1CBbL3JcRCzDCsHGyi4WU_U9IMjjL2fY"
+        },
+        body: json.encode(agent.toJson()));
 
-      )
-    );
-
-
-      // Text("data");
-      throw Exception('Login in failed.');
+    if (response.statusCode == 201) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception("Failed to create agent account");
     }
   }
+
+  Future registerClient(Client client) async {
+    print(client.toJson());
+    final response = await httpClient.post(
+        Uri.http('$_baseUrl', '/api/agent/register_client'),
+        headers: <String, String>{
+          "Content-Type": "application/json",
+          'token':
+              "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50X251bWJlciI6MTAwMDAwMDAwNiwiZXhwIjoxNjMwNzYzMTYwfQ.TuzD7KsMCKJTQStk5Ks0kaBWGMXH8ud7aj4z67m_o3Q"
+        },
+        body: json.encode(client.toJson()));
+
+    if (response.statusCode == 201) {
+      print(jsonDecode(response.body));
+      return jsonDecode(response.body);
+    } else {
+      throw Exception("Failed to create client account");
+    }
+  }
+}
+
+
 
   // ============================== Create =========================================
 
@@ -135,4 +155,4 @@ class AccountDataProvider {
 //     }
 //   }
 
-}
+
