@@ -6,15 +6,17 @@ class Admin extends Equatable {
   Admin(
       // Since we need all the information to return and we don't send any
       // requests with this model I assume everything is required
-      {required this.id,
-      required this.accountNumber,
-      required this.firstName,
-      required this.lastName,
-      required this.fullName,
-      required this.role,
-      required this.dob,
-      required this.address,
-      required this.isBlocked});
+      {
+    required this.id,
+    required this.accountNumber,
+    required this.firstName,
+    required this.lastName,
+    required this.fullName,
+    required this.role,
+    required this.dob,
+    required this.address,
+    required this.isBlocked, //who's gonna block admin tho?
+  });
 
   final int id;
   final int accountNumber;

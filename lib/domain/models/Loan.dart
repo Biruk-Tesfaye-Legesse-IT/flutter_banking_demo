@@ -36,18 +36,16 @@ class Loan extends Equatable {
       ];
 
   factory Loan.fromJson(Map<String, dynamic> json) => Loan(
-   
-      loanID: json['id'],
-      accountNumber: json['account_number'],
-      amountTaken: json['amount_taken'],
-      // amountPaid: json['amount_paied'], // Conformed to the spelling error
-      amountRemaining: json['amount_remaining'],
-      isActive: json['is_active'],
-      dueDate: json['due_date'],
-    );
-  }
-
-  @override
-  String toString() =>
-      'Loan { id: $loanID, client_id: $clientID, amount_taken: $amountTaken, amount_paied: $amountPaid, amount_remaining: $amountRemaining, is_active: $isActive, due_date: $dueDate}';
+        loanID: json['id'],
+        accountNumber: json['account_number'],
+        amountTaken: json['amount_taken'],
+        // amountPaid: json['amount_paied'], // Conformed to the spelling error
+        amountRemaining: json['amount_remaining'],
+        isActive: json['is_active'],
+        dueDate: json['due_date'],
+      );
 }
+
+@override
+String toString() =>
+    'Loan { id: , client_id: , amount_taken: , amount_paied: $amountPaid, amount_remaining: , is_active: , due_date: }';

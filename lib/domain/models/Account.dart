@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
+//Model Class to backup all attributes replicated in each class
+
 @immutable
 class Account extends Equatable {
   Account(

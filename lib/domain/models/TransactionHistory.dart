@@ -56,5 +56,5 @@ class TransactionHistory extends Equatable {
 
   @override
   String toString() =>
-      'History { id: $transactionId, account_id: $accountNumber, text: $description, date: $date}';
+      'History { id: $transactionId, account_id: $accountNumber, text: $remark, date: $date}';
 }
