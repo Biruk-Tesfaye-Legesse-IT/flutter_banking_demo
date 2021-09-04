@@ -25,14 +25,14 @@ class Client extends Equatable {
   final String firstName;
   final String lastName;
   final String? fullName;
-  final int? role;
+  final role;
   final String dob;
   final String address;
   final bool? isBlocked;
   final double balance;
   final String? accountType;
-  final List<Client>? beneficiaries; // I doubt this just made it to hold space
-  final Agent? registeredBy;
+  final List? beneficiaries; // I doubt this just made it to hold space
+  final String? registeredBy;
 
   @override
   List<Object?> get props => [

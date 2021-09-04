@@ -1,32 +1,66 @@
+import 'dart:async';
 import 'dart:convert';
-import 'package:final_demo/domain/models/TransactionHistory.dart';
+import 'package:final_demo/domain/models/models.dart';
 import 'package:final_demo/insfrastructure/data_provider/config.dart';
 import 'package:http/http.dart' as http;
 
-class UserDataProvider {
+class AccountDataProvider {
   final _baseUrl = baseURL;
   final http.Client httpClient;
 
   // UserDataProvider({required this.httpClient}) : assert(httpClient != null);
 
-  UserDataProvider({required this.httpClient});
+  AccountDataProvider({required this.httpClient});
 
   // ===========================getHistory========================================
 
-  Future<TransactionHistory> getHistory() async {
+  Future login(String username, String password) async {
+    var basicAuth = 'Basic ' + base64Encode(utf8.encode('$username:$password'));
+
     final response = await httpClient.get(
-      Uri.http('$_baseUrl', '/placeholder/route'),
+      Uri.http('$_baseUrl', '/api/login'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': basicAuth
       },
     );
 
     if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      if (data['role'] == 'client') {
+        return Client.fromJson(data);
+      } else if (data['role'] == 'agent') {
+        return Agent.fromJson(data);
+      } else if (data['admin'] == 'admin') {
+        return Admin.fromJson(data);
+      } else {
+        return "No user found";
+      }
       // Text('$TransctionHistory.fromJson(jsonDecode(response.body))');
-      return TransactionHistory.fromJson(jsonDecode(response.body));
+      // return TransactionHistory.fromJson(jsonDecode(response.body));
     } else {
       // Text("data");
-      throw Exception('');
+      throw Exception('Login in failed.');
+    }
+  }
+
+  Future registerAgent(Agent agent) async {
+    final response = await httpClient.post(
+      Uri.http('$_baseUrl', '/api/admin/register_agent'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'token': ""
+      },
+      body: jsonEncode(<String, dynamic>{
+        
+      }
+
+      )
+    );
+
+
+      // Text("data");
+      throw Exception('Login in failed.');
     }
   }
 

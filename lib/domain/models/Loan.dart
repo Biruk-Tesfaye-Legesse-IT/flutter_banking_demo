@@ -44,8 +44,8 @@ class Loan extends Equatable {
         isActive: json['is_active'],
         dueDate: json['due_date'],
       );
-}
 
-@override
-String toString() =>
-    'Loan { id: , client_id: , amount_taken: , amount_paied: $amountPaid, amount_remaining: , is_active: , due_date: }';
+  @override
+  String toString() =>
+      'Loan { id: , client_id: , amount_taken: , amount_paied: , amount_remaining: , is_active: , due_date: }';
+}
