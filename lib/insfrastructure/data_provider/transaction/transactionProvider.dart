@@ -34,4 +34,70 @@ class TransactionDataProvider {
       throw Exception("Can not find transaction.");
     }
   }
+
+  Future transfer(String recieverAccountNumber, double amount) async {
+    final response = await httpClient.post(
+        Uri.http('$_baseUrl', '/api/client/transfer'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'token':
+              "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50X251bWJlciI6MTAwMDAwMDAwOSwiZXhwIjoxNjMwODAwNzE1fQ.ZCMl0mUmmyTk1jvlKdnV9Z0lp3tR3rbSrseTDhF4bBQ"
+        },
+        body: jsonEncode({
+          "reciever_account_number": recieverAccountNumber,
+          "amount": amount
+        }));
+
+    if (response.statusCode == 201) {
+      print(jsonDecode(response.body)['message']);
+      return jsonDecode(response.body);
+    } else {
+      print(jsonDecode(response.body)['message']);
+      throw Exception("Tranfer Failed.");
+    }
+  }
+
+  Future withdraw(String recieverAccountNumber, double amount) async {
+    final response = await httpClient.post(
+        Uri.http('$_baseUrl', '/api/client/withdraw'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'token':
+              "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50X251bWJlciI6MTAwMDAwMDAwOSwiZXhwIjoxNjMwODAwNzE1fQ.ZCMl0mUmmyTk1jvlKdnV9Z0lp3tR3rbSrseTDhF4bBQ"
+        },
+        body: jsonEncode({
+          "reciever_account_number": recieverAccountNumber,
+          "amount": amount
+        }));
+
+    if (response.statusCode == 201) {
+      print(jsonDecode(response.body)['message']);
+      return jsonDecode(response.body);
+    } else {
+      print(jsonDecode(response.body)['message']);
+      throw Exception("Withdrawing Failed.");
+    }
+  }
+
+  Future depositToClient(String recieverAccountNumber, double amount) async {
+    final response = await httpClient.post(
+        Uri.http('$_baseUrl', '/api/agent/deposit'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'token':
+              "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50X251bWJlciI6MTAwMDAwMDAwOCwiZXhwIjoxNjMwODAxNDEwfQ.AZLwGQKBDgltPnKuTLMgNWo4xbYjPVz1v2nm-LOvn88"
+        },
+        body: jsonEncode({
+          "reciever_account_number": recieverAccountNumber,
+          "amount": amount
+        }));
+
+    if (response.statusCode == 201) {
+      print(jsonDecode(response.body)['message']);
+      return jsonDecode(response.body);
+    } else {
+      print(jsonDecode(response.body)['message']);
+      throw Exception("Deposit Failed.");
+    }
+  }
 }

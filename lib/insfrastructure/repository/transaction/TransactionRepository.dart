@@ -10,6 +10,18 @@ class TransactionRepository {
   Future getTransactions() async {
     return await dataProvider.getTransactions();
   }
+
+  Future transfer(String recieverAccountNumber, double amount) async {
+    return await dataProvider.transfer(recieverAccountNumber, amount);
+  }
+
+  Future withdraw(String recieverAccountNumber, double amount) async {
+    return await dataProvider.withdraw(recieverAccountNumber, amount);
+  }
+
+  Future depositToClient(String recieverAccountNumber, double amount) async {
+    return await dataProvider.depositToClient(recieverAccountNumber, amount);
+  }
 }
 
 // class NetworkError extends Error {}
