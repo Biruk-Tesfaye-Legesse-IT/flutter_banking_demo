@@ -12,23 +12,27 @@ class Agent extends Equatable {
     this.fullName,
     required this.role, //inferred from sender
     required this.dob,
+    required this.email,
+    required this.phoneNumber,
     required this.address,
     this.isBlocked, // Can't decide
     required this.budget,
-    required this.registeredUsers,
+    this.registeredUsers,
   });
 
   final String? agentID; // Just added this
-  final int? accountNumber;
+  final String? accountNumber;
   final String firstName;
   final String lastName;
   final String? fullName;
-  final String role;
+  final role;
   final String dob;
+  final String email;
+  final String phoneNumber;
   final String address;
   final bool? isBlocked;
   final double budget;
-  final List<Client> registeredUsers;
+  final List? registeredUsers;
 
   @override
   List<Object?> get props => [
@@ -39,6 +43,8 @@ class Agent extends Equatable {
         fullName,
         role,
         dob,
+        email,
+        phoneNumber,
         address,
         isBlocked,
         budget,
@@ -46,7 +52,7 @@ class Agent extends Equatable {
       ];
 
   factory Agent.fromJson(Map<String, dynamic> json) => Agent(
-      agentID: json['agent_id'],
+      agentID: json['id'],
       accountNumber: json['account_number'],
       firstName: json['first_name'],
       lastName: json['last_name'],
@@ -54,6 +60,8 @@ class Agent extends Equatable {
       role: json['role'],
       address: json['address'],
       dob: json['DOB'],
+      email: json['email'],
+      phoneNumber: json['phone_number'],
       isBlocked: json['is_blocked'],
       budget: json['budget'],
       registeredUsers: json['registered_users']);
@@ -63,6 +71,8 @@ class Agent extends Equatable {
         'last_name': lastName,
         'address': address,
         'DOB': dob,
+        'email': email,
+        'phone_number': phoneNumber,
         'budget': budget,
       };
 }
