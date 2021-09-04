@@ -22,6 +22,18 @@ class AccountRepository {
   Future getAccount(String accountNumber) async {
     return await dataProvider.getAccount(accountNumber);
   }
+
+  Future changePassword(String newPassword) async {
+    return await dataProvider.changePassword(newPassword);
+  }
+
+  Future saveAccount(String accountNumber) async {
+    return await dataProvider.saveAccount(accountNumber);
+  }
+
+  Future removeSavedAccount(String accountNumber) async {
+    return await dataProvider.removeSaveAccount(accountNumber);
+  }
 }
 
 class NetworkError extends Error {}

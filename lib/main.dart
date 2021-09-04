@@ -11,7 +11,7 @@ void main() {
   var data_provider = TransactionDataProvider(httpClient: http.Client());
   var repo = TransactionRepository(dataProvider: data_provider);
 
-  repo.depositToClient('1000000009', 50);
+  repo.agentPayment();
 
   runApp(
     MaterialApp(

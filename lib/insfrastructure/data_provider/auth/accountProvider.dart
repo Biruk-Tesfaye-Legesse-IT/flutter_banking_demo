@@ -111,6 +111,61 @@ class AccountDataProvider {
       throw Exception('Failed to get account information.');
     }
   }
+
+  Future changePassword(String newPassword) async {
+    final http.Response response = await httpClient.put(
+      Uri.http('$_baseUrl', '/api/account/password_reset'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'token':
+            "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50X251bWJlciI6MTAwMDAwMDAwOCwiZXhwIjoxNjMwODAxNDEwfQ.AZLwGQKBDgltPnKuTLMgNWo4xbYjPVz1v2nm-LOvn88"
+      },
+      body: jsonEncode(<String, String>{"password": newPassword}),
+    );
+
+    if (response.statusCode == 201) {
+      print(jsonDecode(response.body)['message']);
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Failed to update password.');
+    }
+  }
+
+  Future saveAccount(String accountNumber) async {
+    final http.Response response = await httpClient.put(
+      Uri.http('$_baseUrl', '/api/client/save_account/$accountNumber'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'token':
+            "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50X251bWJlciI6MTAwMDAwMDAwOCwiZXhwIjoxNjMwODAxNDEwfQ.AZLwGQKBDgltPnKuTLMgNWo4xbYjPVz1v2nm-LOvn88"
+      },
+    );
+
+    if (response.statusCode == 201) {
+      print(jsonDecode(response.body)['message']);
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Failed to save account.');
+    }
+  }
+
+  Future removeSaveAccount(String accountNumber) async {
+    final http.Response response = await httpClient.delete(
+      Uri.http('$_baseUrl', '/api/client/save_account/$accountNumber'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'token':
+            "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50X251bWJlciI6MTAwMDAwMDAwOCwiZXhwIjoxNjMwODAxNDEwfQ.AZLwGQKBDgltPnKuTLMgNWo4xbYjPVz1v2nm-LOvn88"
+      },
+    );
+
+    if (response.statusCode == 202) {
+      print(jsonDecode(response.body)['message']);
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Failed to save account.');
+    }
+  }
 }
 
 
@@ -166,24 +221,24 @@ class AccountDataProvider {
 
   // ======================================Update=====================================
 
-//   Future<void> updateCourse(Course course) async {
-//     final http.Response response = await httpClient.put(
-//       '$_baseUrl/courses/${course.id}',
-//       headers: <String, String>{
-//         'Content-Type': 'application/json; charset=UTF-8',
-//       },
-//       body: jsonEncode(<String, dynamic>{
-//         'id': course.id,
-//         'title': course.title,
-//         'code': course.code,
-//         'description': course.description,
-//         'ects': course.ects,
-//       }),
-//     );
+  // Future<void> updateCourse(Course course) async {
+  //   final http.Response response = await httpClient.put(
+  //     '$_baseUrl/courses/${course.id}',
+  //     headers: <String, String>{
+  //       'Content-Type': 'application/json; charset=UTF-8',
+  //     },
+  //     body: jsonEncode(<String, dynamic>{
+  //       'id': course.id,
+  //       'title': course.title,
+  //       'code': course.code,
+  //       'description': course.description,
+  //       'ects': course.ects,
+  //     }),
+  //   );
 
-//     if (response.statusCode != 204) {
-//       throw Exception('Failed to update course.');
-//     }
-//   }
+  //   if (response.statusCode != 204) {
+  //     throw Exception('Failed to update course.');
+  //   }
+  // }
 
 
