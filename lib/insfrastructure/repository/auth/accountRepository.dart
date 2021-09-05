@@ -34,6 +34,10 @@ class AccountRepository {
   Future removeSavedAccount(String accountNumber) async {
     return await dataProvider.removeSaveAccount(accountNumber);
   }
+
+  Future getCurrentUser() async {
+    return await dataProvider.getCurrentUser();
+  }
 }
 
 class NetworkError extends Error {}

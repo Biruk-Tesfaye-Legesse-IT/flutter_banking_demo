@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:final_demo/domain/models/models.dart';
 import 'package:final_demo/insfrastructure/data_provider/config.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:final_demo/insfrastructure/data_provider/getToken.dart';
 
 class AccountDataProvider {
   final _baseUrl = baseURL;
@@ -10,6 +12,30 @@ class AccountDataProvider {
 
   AccountDataProvider({required this.httpClient});
 
+  // shared preference methods \\
+// ###################################################### \\
+  Future<void> setToken(token) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('token', token);
+  }
+
+  Future getCurrentUser() async {
+    final prefs = await SharedPreferences.getInstance();
+    final user = prefs.getString('user');
+
+    if (user == null) {
+      return "user not found";
+    }
+    return jsonDecode(user).fromJson();
+  }
+
+  Future<void> saveLoggedInUser(user) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('user', jsonEncode(user.toJson()));
+  }
+
+// ###################################################### \\
+  // shared preference methods end \\
   Future login(String username, String password) async {
     var basicAuth = 'Basic ' + base64Encode(utf8.encode('$username:$password'));
 
@@ -23,14 +49,18 @@ class AccountDataProvider {
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
+      await setToken(data['token']);
       if (data['role'] == 'client') {
         print(Client.fromJson(data));
+        saveLoggedInUser(Client.fromJson(data));
         return Client.fromJson(data);
       } else if (data['role'] == 'agent') {
         print(Agent.fromJson(data));
+        saveLoggedInUser(Agent.fromJson(data));
         return Agent.fromJson(data);
       } else if (data['role'] == 'admin') {
         print(Admin.fromJson(data));
+        saveLoggedInUser(Admin.fromJson(data));
         return Admin.fromJson(data);
       } else {
         return "No user found";
@@ -48,8 +78,7 @@ class AccountDataProvider {
         Uri.http('$_baseUrl', '/api/admin/register_agent'),
         headers: <String, String>{
           "Content-Type": "application/json",
-          'token':
-              "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50X251bWJlciI6MTAwMSwiZXhwIjoxNjMwNzYwNjMyfQ.GZun0AGl9BD1CBbL3JcRCzDCsHGyi4WU_U9IMjjL2fY"
+          'token': await getToken()
         },
         body: json.encode(agent.toJson()));
 
@@ -66,8 +95,7 @@ class AccountDataProvider {
         Uri.http('$_baseUrl', '/api/agent/register_client'),
         headers: <String, String>{
           "Content-Type": "application/json",
-          'token':
-              "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50X251bWJlciI6MTAwMDAwMDAwNiwiZXhwIjoxNjMwNzYzMTYwfQ.TuzD7KsMCKJTQStk5Ks0kaBWGMXH8ud7aj4z67m_o3Q"
+          'token': await getToken()
         },
         body: json.encode(client.toJson()));
 
@@ -80,12 +108,12 @@ class AccountDataProvider {
   }
 
   Future getAccount(String accountNumber) async {
+    final token = await getToken();
     final response = await httpClient.get(
       Uri.http('$_baseUrl', '/api/account/$accountNumber'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
-        'token':
-            "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50X251bWJlciI6MTAwMDAwMDAwOCwiZXhwIjoxNjMwNzk1MDg3fQ.Do0xuRUkKKO4_33Qf52zURSMmCvIbVJy8JNSivVSm2c"
+        'token': token
       },
     );
 
@@ -113,8 +141,7 @@ class AccountDataProvider {
       Uri.http('$_baseUrl', '/api/account/password_reset'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
-        'token':
-            "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50X251bWJlciI6MTAwMDAwMDAwOCwiZXhwIjoxNjMwODAxNDEwfQ.AZLwGQKBDgltPnKuTLMgNWo4xbYjPVz1v2nm-LOvn88"
+        'token': await getToken()
       },
       body: jsonEncode(<String, String>{"password": newPassword}),
     );
@@ -132,8 +159,7 @@ class AccountDataProvider {
       Uri.http('$_baseUrl', '/api/client/save_account/$accountNumber'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
-        'token':
-            "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50X251bWJlciI6MTAwMDAwMDAwOCwiZXhwIjoxNjMwODAxNDEwfQ.AZLwGQKBDgltPnKuTLMgNWo4xbYjPVz1v2nm-LOvn88"
+        'token': await getToken()
       },
     );
 
@@ -150,8 +176,7 @@ class AccountDataProvider {
       Uri.http('$_baseUrl', '/api/client/save_account/$accountNumber'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
-        'token':
-            "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50X251bWJlciI6MTAwMDAwMDAwOCwiZXhwIjoxNjMwODAxNDEwfQ.AZLwGQKBDgltPnKuTLMgNWo4xbYjPVz1v2nm-LOvn88"
+        'token': await getToken()
       },
     );
 
@@ -163,6 +188,8 @@ class AccountDataProvider {
     }
   }
 }
+
+
 
 
 

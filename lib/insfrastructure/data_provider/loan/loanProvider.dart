@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:final_demo/domain/models/models.dart';
 import 'package:final_demo/insfrastructure/data_provider/config.dart';
+import 'package:final_demo/insfrastructure/data_provider/getToken.dart';
 import 'package:http/http.dart' as http;
 
 class LoanDataProvider {
@@ -15,8 +16,7 @@ class LoanDataProvider {
       Uri.http('$_baseUrl', '/api/loan'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
-        'token':
-            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50X251bWJlciI6MTAwMDAwMDAwOSwiZXhwIjoxNjMwODA3NTkzfQ.T_fFnWwWvuj_H_hCfpmFabsg8bok02OGXYZb_mqvJeI'
+        'token': await getToken()
       },
     );
     var data = jsonDecode(response.body);
@@ -34,8 +34,7 @@ class LoanDataProvider {
     final response = await httpClient.post(Uri.http('$_baseUrl', '/api/loan'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'token':
-              'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50X251bWJlciI6MTAwMDAwMDAwOSwiZXhwIjoxNjMwODA3NTkzfQ.T_fFnWwWvuj_H_hCfpmFabsg8bok02OGXYZb_mqvJeI'
+          'token': await getToken()
         },
         body: jsonEncode({"amount": amount}));
     var data = jsonDecode(response.body);
@@ -52,8 +51,7 @@ class LoanDataProvider {
     final response = await httpClient.put(Uri.http('$_baseUrl', '/api/loan'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'token':
-              'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50X251bWJlciI6MTAwMDAwMDAwOSwiZXhwIjoxNjMwODA3NTkzfQ.T_fFnWwWvuj_H_hCfpmFabsg8bok02OGXYZb_mqvJeI'
+          'token': await getToken()
         },
         body: jsonEncode({"topup": amount}));
     var data = jsonDecode(response.body);
@@ -71,8 +69,7 @@ class LoanDataProvider {
       Uri.http('$_baseUrl', '/api/loan'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
-        'token':
-            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50X251bWJlciI6MTAwMDAwMDAwOSwiZXhwIjoxNjMwODA3NTkzfQ.T_fFnWwWvuj_H_hCfpmFabsg8bok02OGXYZb_mqvJeI'
+        'token': await getToken()
       },
     );
     var data = jsonDecode(response.body);
