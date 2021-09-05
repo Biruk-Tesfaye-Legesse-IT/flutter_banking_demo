@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class CustomBottomNavigation extends StatelessWidget {
-  const CustomBottomNavigation({this.selectedIndex = 0, required this.onTap});
+class AgentBottomNavigation extends StatelessWidget {
+  const AgentBottomNavigation({this.selectedIndex = 0, required this.onTap});
 
   final int selectedIndex;
   final void Function(int) onTap;
@@ -14,10 +14,10 @@ class CustomBottomNavigation extends StatelessWidget {
           icon: Icon(Icons.dashboard),
           label: 'Dashboard',
         ),
-        // BottomNavigationBarItem(
-        //   icon: Icon(Icons.save),
-        //   label: 'Saved Accounts',
-        // ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.bookmark),
+          label: 'Saved Accounts',
+        ),
         BottomNavigationBarItem(
           icon: Icon(Icons.settings),
           label: 'Settings',

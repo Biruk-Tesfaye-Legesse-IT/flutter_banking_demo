@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:final_demo/presentation/widgets/route_cards.dart';
 
 class MenuCardLayout extends StatelessWidget {
-  const MenuCardLayout({
-    Key? key,
-  }) : super(key: key);
+  final InkWell topLeft;
+  final InkWell topRight;
+  final InkWell bottomLeft;
+  final InkWell bottomRight;
+  const MenuCardLayout(
+      this.topLeft, this.topRight, this.bottomLeft, this.bottomRight);
 
   @override
   Widget build(BuildContext context) {
@@ -15,10 +17,7 @@ class MenuCardLayout extends StatelessWidget {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              RouteCard("Withdraw", Icon(Icons.ac_unit), Colors.blue),
-              RouteCard("Withdraw", Icon(Icons.ac_unit), Colors.lightGreen),
-            ],
+            children: [this.topLeft, this.topRight],
           ),
           SizedBox(
             height: 20,
@@ -26,8 +25,8 @@ class MenuCardLayout extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              RouteCard("Withdraw", Icon(Icons.ac_unit), Colors.blue),
-              RouteCard("Withdraw", Icon(Icons.ac_unit), Colors.lightGreen),
+              this.bottomLeft,
+              this.bottomRight,
             ],
           ),
         ],
