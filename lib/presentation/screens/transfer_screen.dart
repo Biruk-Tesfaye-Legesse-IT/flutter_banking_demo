@@ -6,11 +6,10 @@ class TransferPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: 
-    );
+        body: Column(children: [_recieverAccount(), _recieverAccount()]));
   }
 }
 
-Widget _recieverAccount(){
+Widget _recieverAccount() {
   return TextFormField();
 }

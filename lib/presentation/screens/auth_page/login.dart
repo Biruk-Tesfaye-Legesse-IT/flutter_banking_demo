@@ -1,6 +1,8 @@
 import 'package:final_demo/application/bloc/AuthBloc/auth_bloc.dart';
+import 'package:final_demo/presentation/config/route_generator.dart';
 import 'package:final_demo/presentation/screens/client_pages/client_home.dart';
-import 'package:final_demo/presentation/screens/client_pages/client_pages_frame.dart';
+// import 'package:final_demo/presentation/screens/client_pages/client_home.dart';
+// import 'package:final_demo/presentation/screens/client_pages/client_pages_frame.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,64 +20,80 @@ class LoginScreen extends StatelessWidget {
     );
 
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Form(
-          key: formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: 400,
-                height: MediaQuery.of(context).size.height / 2.3,
-                child: Image.asset('assets/images/bankingforLogin.jpg',
-                    fit: BoxFit.contain),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Container(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Form(
+                key: formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 20.0),
+                    Container(
+                      width: 400,
+                      height: MediaQuery.of(context).size.height / 3,
+                      // decoration: BoxDecoration(color: Colors.black),
+                      child: Image.asset('assets/images/bankingforLogin.jpg'),
+                    ),
+                    SizedBox(height: 20.0),
+                    EmailField(emailTextController: emailTextController),
+                    SizedBox(height: 20.0),
+                    PasswordField(
+                        passwordTextController: passwordTextController,
+                        inputFieldStyle: inputFieldStyle),
+                    SizedBox(height: 30.0),
+                    BlocConsumer<AuthBloc, AuthState>(
+                      listener: (ctx, authState) {
+                        if (authState is LoggedIn) {
+                          Navigator.of(context).pushNamed('/userhome');
+                        }
+                        if (authState is LoginInprogress) {
+                          // buttonChild = SizedBox(
+                          //   height: 20,
+                          //   width: 20,
+                          //   child: CircularProgressIndicator(
+                          //     color: Colors.white,
+                          //   ),
+                          // );
+                          final snackBar =
+                              SnackBar(content: Text("Login in progress"));
+
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        }
+
+                        if (authState is AuthFailed) {
+                          // buttonChild = Text(authState.errorMsg);
+
+                          final snackBar =
+                              SnackBar(content: Text(authState.errorMsg));
+
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        }
+                      },
+                      builder: (ctx, authState) {
+                        Widget buttonChild = Text("Login");
+
+                        return ElevatedButton(
+                          onPressed: () {
+                            final authBloc = BlocProvider.of<AuthBloc>(context);
+
+                            authBloc.add(
+                              LoginEvent(
+                                email: emailTextController.text,
+                                password: passwordTextController.text,
+                              ),
+                            );
+                          },
+                          child: buttonChild,
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
-              EmailField(emailTextController: emailTextController),
-              SizedBox(height: 20.0),
-              PasswordField(
-                  passwordTextController: passwordTextController,
-                  inputFieldStyle: inputFieldStyle),
-              SizedBox(height: 30.0),
-              BlocConsumer<AuthBloc, AuthState>(
-                listener: (ctx, authState) {
-                  if (authState is LoggedIn) {
-                    Navigator.of(context).pushNamed('/userhome');
-                  }
-                },
-                builder: (ctx, authState) {
-                  Widget buttonChild = Text("Login");
-
-                  if (authState is LoginInprogress) {
-                    buttonChild = SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: CircularProgressIndicator(
-                        color: Colors.white,
-                      ),
-                    );
-                  }
-
-                  if (authState is AuthFailed) {
-                    buttonChild = Text(authState.errorMsg);
-                  }
-
-                  return ElevatedButton(
-                    onPressed: () {
-                      final authBloc = BlocProvider.of<AuthBloc>(context);
-
-                      authBloc.add(
-                        LoginEvent(
-                          email: emailTextController.text,
-                          password: passwordTextController.text,
-                        ),
-                      );
-                    },
-                    child: buttonChild,
-                  );
-                },
-              ),
-            ],
+            ),
           ),
         ),
       ),
