@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:final_demo/domain/models/TransactionHistory.dart';
-import 'package:final_demo/insfrastructure/repository/accountRepository.dart';
+import 'package:final_demo/insfrastructure/repository/auth/accountRepository.dart';
 
 part 'history_event.dart';
 part 'history_state.dart';

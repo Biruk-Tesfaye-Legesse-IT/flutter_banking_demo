@@ -15,7 +15,7 @@ class Loan extends Equatable {
   });
 
   final int? loanID;
-  final String accountNumber;
+  final int accountNumber;
   final double amountTaken;
   // final double amountPaid;
   final double amountRemaining;
@@ -39,13 +39,14 @@ class Loan extends Equatable {
         loanID: json['id'],
         accountNumber: json['account_number'],
         amountTaken: json['amount_taken'],
+        dateTaken: json['date_taken'],
         // amountPaid: json['amount_paied'], // Conformed to the spelling error
-        amountRemaining: json['amount_remaining'],
+        amountRemaining: json['remaining_amount'],
         isActive: json['is_active'],
         dueDate: json['due_date'],
       );
 
   @override
   String toString() =>
-      'Loan { id: , client_id: , amount_taken: , amount_paied: , amount_remaining: , is_active: , due_date: }';
+      'Loan { id: $loanID, account_number: $accountNumber , amount_taken: $amountTaken, amount_remaining: $amountRemaining, is_active: $isActive, due_date: $dueDate}';
 }

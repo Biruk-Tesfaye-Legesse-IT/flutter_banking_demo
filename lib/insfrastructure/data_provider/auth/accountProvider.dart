@@ -8,11 +8,7 @@ class AccountDataProvider {
   final _baseUrl = baseURL;
   final http.Client httpClient;
 
-  // UserDataProvider({required this.httpClient}) : assert(httpClient != null);
-
   AccountDataProvider({required this.httpClient});
-
-  // ===========================getHistory========================================
 
   Future login(String username, String password) async {
     var basicAuth = 'Basic ' + base64Encode(utf8.encode('$username:$password'));
@@ -28,10 +24,13 @@ class AccountDataProvider {
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
       if (data['role'] == 'client') {
+        print(Client.fromJson(data));
         return Client.fromJson(data);
       } else if (data['role'] == 'agent') {
+        print(Agent.fromJson(data));
         return Agent.fromJson(data);
-      } else if (data['admin'] == 'admin') {
+      } else if (data['role'] == 'admin') {
+        print(Admin.fromJson(data));
         return Admin.fromJson(data);
       } else {
         return "No user found";
@@ -46,23 +45,126 @@ class AccountDataProvider {
 
   Future registerAgent(Agent agent) async {
     final response = await httpClient.post(
-      Uri.http('$_baseUrl', '/api/admin/register_agent'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'token': ""
-      },
-      body: jsonEncode(<String, dynamic>{
-        
-      }
+        Uri.http('$_baseUrl', '/api/admin/register_agent'),
+        headers: <String, String>{
+          "Content-Type": "application/json",
+          'token':
+              "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50X251bWJlciI6MTAwMSwiZXhwIjoxNjMwNzYwNjMyfQ.GZun0AGl9BD1CBbL3JcRCzDCsHGyi4WU_U9IMjjL2fY"
+        },
+        body: json.encode(agent.toJson()));
 
-      )
-    );
-
-
-      // Text("data");
-      throw Exception('Login in failed.');
+    if (response.statusCode == 201) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception("Failed to create agent account");
     }
   }
+
+  Future registerClient(Client client) async {
+    print(client.toJson());
+    final response = await httpClient.post(
+        Uri.http('$_baseUrl', '/api/agent/register_client'),
+        headers: <String, String>{
+          "Content-Type": "application/json",
+          'token':
+              "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50X251bWJlciI6MTAwMDAwMDAwNiwiZXhwIjoxNjMwNzYzMTYwfQ.TuzD7KsMCKJTQStk5Ks0kaBWGMXH8ud7aj4z67m_o3Q"
+        },
+        body: json.encode(client.toJson()));
+
+    if (response.statusCode == 201) {
+      print(jsonDecode(response.body));
+      return jsonDecode(response.body);
+    } else {
+      throw Exception("Failed to create client account");
+    }
+  }
+
+  Future getAccount(String accountNumber) async {
+    final response = await httpClient.get(
+      Uri.http('$_baseUrl', '/api/account/$accountNumber'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'token':
+            "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50X251bWJlciI6MTAwMDAwMDAwOCwiZXhwIjoxNjMwNzk1MDg3fQ.Do0xuRUkKKO4_33Qf52zURSMmCvIbVJy8JNSivVSm2c"
+      },
+    );
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      if (data['role'] == 'client') {
+        print(Client.fromJson(data));
+        return Client.fromJson(data);
+      } else if (data['role'] == 'agent') {
+        print(Agent.fromJson(data));
+        return Agent.fromJson(data);
+      } else if (data['role'] == 'admin') {
+        print(Admin.fromJson(data));
+        return Admin.fromJson(data);
+      } else {
+        return "No user found";
+      }
+    } else {
+      throw Exception('Failed to get account information.');
+    }
+  }
+
+  Future changePassword(String newPassword) async {
+    final http.Response response = await httpClient.put(
+      Uri.http('$_baseUrl', '/api/account/password_reset'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'token':
+            "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50X251bWJlciI6MTAwMDAwMDAwOCwiZXhwIjoxNjMwODAxNDEwfQ.AZLwGQKBDgltPnKuTLMgNWo4xbYjPVz1v2nm-LOvn88"
+      },
+      body: jsonEncode(<String, String>{"password": newPassword}),
+    );
+
+    if (response.statusCode == 201) {
+      print(jsonDecode(response.body)['message']);
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Failed to update password.');
+    }
+  }
+
+  Future saveAccount(String accountNumber) async {
+    final http.Response response = await httpClient.put(
+      Uri.http('$_baseUrl', '/api/client/save_account/$accountNumber'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'token':
+            "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50X251bWJlciI6MTAwMDAwMDAwOCwiZXhwIjoxNjMwODAxNDEwfQ.AZLwGQKBDgltPnKuTLMgNWo4xbYjPVz1v2nm-LOvn88"
+      },
+    );
+
+    if (response.statusCode == 201) {
+      print(jsonDecode(response.body)['message']);
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Failed to save account.');
+    }
+  }
+
+  Future removeSaveAccount(String accountNumber) async {
+    final http.Response response = await httpClient.delete(
+      Uri.http('$_baseUrl', '/api/client/save_account/$accountNumber'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'token':
+            "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50X251bWJlciI6MTAwMDAwMDAwOCwiZXhwIjoxNjMwODAxNDEwfQ.AZLwGQKBDgltPnKuTLMgNWo4xbYjPVz1v2nm-LOvn88"
+      },
+    );
+
+    if (response.statusCode == 202) {
+      print(jsonDecode(response.body)['message']);
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Failed to save account.');
+    }
+  }
+}
+
+
 
   // ============================== Create =========================================
 
@@ -115,24 +217,24 @@ class AccountDataProvider {
 
   // ======================================Update=====================================
 
-//   Future<void> updateCourse(Course course) async {
-//     final http.Response response = await httpClient.put(
-//       '$_baseUrl/courses/${course.id}',
-//       headers: <String, String>{
-//         'Content-Type': 'application/json; charset=UTF-8',
-//       },
-//       body: jsonEncode(<String, dynamic>{
-//         'id': course.id,
-//         'title': course.title,
-//         'code': course.code,
-//         'description': course.description,
-//         'ects': course.ects,
-//       }),
-//     );
+  // Future<void> updateCourse(Course course) async {
+  //   final http.Response response = await httpClient.put(
+  //     '$_baseUrl/courses/${course.id}',
+  //     headers: <String, String>{
+  //       'Content-Type': 'application/json; charset=UTF-8',
+  //     },
+  //     body: jsonEncode(<String, dynamic>{
+  //       'id': course.id,
+  //       'title': course.title,
+  //       'code': course.code,
+  //       'description': course.description,
+  //       'ects': course.ects,
+  //     }),
+  //   );
 
-//     if (response.statusCode != 204) {
-//       throw Exception('Failed to update course.');
-//     }
-//   }
+  //   if (response.statusCode != 204) {
+  //     throw Exception('Failed to update course.');
+  //   }
+  // }
 
-}
+
