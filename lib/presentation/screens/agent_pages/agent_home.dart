@@ -1,12 +1,14 @@
 import 'package:final_demo/presentation/widgets/bank_name.dart';
+import 'package:final_demo/presentation/widgets/custom_agent_widgets/agent_menu.dart';
+import 'package:final_demo/presentation/widgets/custom_client_widgets/client_menu.dart';
 import 'package:final_demo/presentation/widgets/info_card.dart';
 import 'package:final_demo/presentation/widgets/menu_card_layout.dart';
 import 'package:final_demo/presentation/widgets/name_card.dart';
 import 'package:final_demo/presentation/theme/color_const.dart';
 import 'package:flutter/material.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+class AgentHomePage extends StatelessWidget {
+  const AgentHomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +22,9 @@ class HomePage extends StatelessWidget {
             child: Column(
               children: [
                 BankName(),
-                NameCard('Frank Sinatra', 'Client'),
-                InfoCard('Gold', '1000 000 000', '\$2500.00'),
-                MenuCardLayout()
+                NameCard('Frank Sinatra', 'Agent'),
+                InfoCard('Corporate', '1000 000 000', '\$2500.00'),
+                AgentMenuLayout(),
               ],
             ),
           ),

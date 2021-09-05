@@ -1,16 +1,16 @@
 import 'package:final_demo/presentation/theme/color_const.dart';
 import 'package:flutter/material.dart';
-import 'package:final_demo/presentation/screens/home.dart';
+import 'package:final_demo/presentation/screens/client_pages/client_home.dart';
 import 'package:final_demo/presentation/screens/other.dart';
 import 'package:final_demo/presentation/screens/saved_accounts.dart';
 import 'package:final_demo/presentation/screens/settings.dart';
-import 'package:final_demo/presentation/widgets/bottom_nav.dart';
+import 'package:final_demo/presentation/widgets/custom_client_widgets/client_bottom_nav.dart';
 import 'package:flutter/services.dart';
 
 // void main() => runApp(HomePage());
 
 /// This is the main application widget.
-class Dashboard extends StatelessWidget {
+class ClientDashboard extends StatelessWidget {
   static const String _title = 'Flutter Code Sample';
 
   @override
@@ -37,7 +37,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   // static const TextStyle optionStyle =
   //     TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
-    HomePage(),
+    ClientHomePage(),
     SavedAccounts(),
     SettingsPage(),
     SettingsPage(),
@@ -71,7 +71,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   caption: new TextStyle(
                       color: Colors
                           .yellow))), // sets the inactive color of the `BottomNavigationBar`
-          child: CustomBottomNavigation(
+          child: ClientBottomNavigation(
             selectedIndex: _selectedIndex,
             onTap: _onItemTapped,
           ),
