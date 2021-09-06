@@ -1,35 +1,66 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:final_demo/domain/models/models.dart';
 import 'package:final_demo/insfrastructure/data_provider/config.dart';
 import 'package:http/http.dart' as http;
 import 'package:final_demo/insfrastructure/data_provider/getToken.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TransactionDataProvider {
   final _baseUrl = baseURL;
   final http.Client httpClient;
 
   TransactionDataProvider({required this.httpClient});
+  // a method to save history into the cache
+  Future<void> saveTransactionInCache(transactions) async {
+    final prefs = await SharedPreferences.getInstance();
+    var jsonList =
+        transactions.map((transaction) => transaction.toJson()).toList();
+    await prefs.setString('transactions', jsonEncode(jsonList));
+  }
+
+  // a method to retrieve history from cache
+  Future getHistoryFromCache() async {
+    final prefs = await SharedPreferences.getInstance();
+    final transactions = prefs.getString('transactions');
+    if (transactions == null) {
+      return null;
+    }
+    var transObjs = jsonDecode(transactions)
+        .map((transaction) => TransactionHistory.fromJson(transaction))
+        .toList();
+    return transObjs;
+  }
 
   // ===========================getHistory========================================
 
   Future getTransactions() async {
-    final response = await httpClient.get(
-      Uri.http('$_baseUrl', '/api/account/transactions'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'token': await getToken()
-      },
-    );
+    try {
+      final response = await httpClient.get(
+        Uri.http('$_baseUrl', '/api/account/transactions'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'token': await getToken()
+        },
+      );
 
-    if (response.statusCode == 200) {
-      var data = jsonDecode(response.body);
-      var tranactionList =
-          data.map((transaction) => TransactionHistory.fromJson(transaction));
-      print(tranactionList);
-      return tranactionList;
-    } else {
-      throw Exception("Can not find transaction.");
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body);
+        var transactionList = data
+            .map((transaction) => TransactionHistory.fromJson(transaction))
+            .toList();
+        print("setting transactions to cache");
+        saveTransactionInCache(transactionList);
+        return transactionList;
+      } else {
+        throw Exception("Can not find transaction.");
+      }
+    } on SocketException catch (_) {
+      print("the device is offline, history from cache");
+      var transactions = await getHistoryFromCache();
+      print(transactions);
+      return transactions;
     }
   }
 
