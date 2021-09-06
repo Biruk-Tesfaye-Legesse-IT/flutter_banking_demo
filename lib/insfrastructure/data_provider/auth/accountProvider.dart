@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:final_demo/domain/models/models.dart';
 import 'package:final_demo/insfrastructure/data_provider/config.dart';
 import 'package:http/http.dart' as http;
@@ -25,15 +26,22 @@ class AccountDataProvider {
 
     if (user == null) {
       return null;
-    } else if (jsonDecode(user)['role'] == 'client') {
-      print(Client.fromJson(jsonDecode(user)));
-      return Client.fromJson(jsonDecode(user));
-    } else if (jsonDecode(user)['role'] == 'agent') {
-      print(Agent.fromJson(jsonDecode(user)));
-      return Agent.fromJson(jsonDecode(user));
-    } else if (jsonDecode(user)['role'] == 'admin') {
-      print(Admin.fromJson(jsonDecode(user)));
-      return Admin.fromJson(jsonDecode(user));
+    }
+    try {
+      var userFromServer =
+          await getAccount(jsonDecode(user)['account_number'].toString());
+      return userFromServer;
+    } on SocketException catch (_) {
+      if (jsonDecode(user)['role'] == 'client') {
+        print(Client.fromJson(jsonDecode(user)));
+        return Client.fromJson(jsonDecode(user));
+      } else if (jsonDecode(user)['role'] == 'agent') {
+        print(Agent.fromJson(jsonDecode(user)));
+        return Agent.fromJson(jsonDecode(user));
+      } else if (jsonDecode(user)['role'] == 'admin') {
+        print(Admin.fromJson(jsonDecode(user)));
+        return Admin.fromJson(jsonDecode(user));
+      }
     }
   }
 
@@ -77,7 +85,8 @@ class AccountDataProvider {
       // return TransactionHistory.fromJson(jsonDecode(response.body));
     } else {
       // Text("data");
-      throw Exception('Login in failed.');
+      print(jsonDecode(response.body)['message']);
+      throw Exception(jsonDecode(response.body)['message']);
     }
   }
 
@@ -91,8 +100,9 @@ class AccountDataProvider {
         body: json.encode(agent.toJson()));
 
     if (response.statusCode == 201) {
-      return jsonDecode(response.body);
+      return jsonDecode(response.body)['message'];
     } else {
+      print(jsonDecode(response.body)['message']);
       throw Exception("Failed to create agent account");
     }
   }
@@ -108,10 +118,10 @@ class AccountDataProvider {
         body: json.encode(client.toJson()));
 
     if (response.statusCode == 201) {
-      print(jsonDecode(response.body));
-      return jsonDecode(response.body);
+      return jsonDecode(response.body)['message'];
     } else {
-      throw Exception("Failed to create client account");
+      print(jsonDecode(response.body)['message']);
+      throw Exception(jsonDecode(response.body)['message']);
     }
   }
 
@@ -140,7 +150,8 @@ class AccountDataProvider {
         return "No user found";
       }
     } else {
-      throw Exception('Failed to get account information.');
+      print(jsonDecode(response.body)['message']);
+      throw Exception(jsonDecode(response.body)['message']);
     }
   }
 
@@ -155,10 +166,10 @@ class AccountDataProvider {
     );
 
     if (response.statusCode == 201) {
-      print(jsonDecode(response.body)['message']);
       return jsonDecode(response.body);
     } else {
-      throw Exception('Failed to update password.');
+      print(jsonDecode(response.body)['message']);
+      throw Exception(jsonDecode(response.body)['message']);
     }
   }
 
@@ -172,10 +183,10 @@ class AccountDataProvider {
     );
 
     if (response.statusCode == 201) {
-      print(jsonDecode(response.body)['message']);
       return jsonDecode(response.body);
     } else {
-      throw Exception('Failed to save account.');
+      print(jsonDecode(response.body)['message']);
+      throw Exception(jsonDecode(response.body)['message']);
     }
   }
 
@@ -189,10 +200,10 @@ class AccountDataProvider {
     );
 
     if (response.statusCode == 202) {
-      print(jsonDecode(response.body)['message']);
       return jsonDecode(response.body);
     } else {
-      throw Exception('Failed to save account.');
+      print(jsonDecode(response.body)['message']);
+      throw Exception(jsonDecode(response.body)['message']);
     }
   }
 
@@ -206,10 +217,9 @@ class AccountDataProvider {
     );
 
     if (response.statusCode == 202) {
-      print(jsonDecode(response.body)['message']);
       return jsonDecode(response.body);
     } else {
-      throw Exception('Failed to block/unblock.');
+      throw Exception(jsonDecode(response.body)['message']);
     }
   }
 
@@ -224,10 +234,9 @@ class AccountDataProvider {
     );
 
     if (response.statusCode == 202) {
-      print(jsonDecode(response.body)['message']);
       return jsonDecode(response.body);
     } else {
-      throw Exception('Failed to change account type.');
+      throw Exception(jsonDecode(response.body)['message']);
     }
   }
 }
