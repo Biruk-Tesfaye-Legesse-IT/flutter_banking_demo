@@ -23,6 +23,10 @@ class TransactionRepository {
     return await dataProvider.depositToClient(recieverAccountNumber, amount);
   }
 
+  Future depositToAgent(String recieverAccountNumber, double amount) async {
+    return await dataProvider.depositToAgent(recieverAccountNumber, amount);
+  }
+
   Future agentWithdraw(String recieverAccountNumber, double amount) async {
     return await dataProvider.agentWithdraw(recieverAccountNumber, amount);
   }

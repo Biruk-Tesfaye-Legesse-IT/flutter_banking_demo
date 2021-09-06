@@ -35,6 +35,14 @@ class AccountRepository {
     return await dataProvider.removeSaveAccount(accountNumber);
   }
 
+  Future blockUnblockAccount(String accountNumber) async {
+    return await dataProvider.blockUnblocAccount(accountNumber);
+  }
+
+  Future changeAccountType(String accountNumber, int type) async {
+    return await dataProvider.changeAccountType(accountNumber, type);
+  }
+
   Future getCurrentUser() async {
     return await dataProvider.getCurrentUser();
   }

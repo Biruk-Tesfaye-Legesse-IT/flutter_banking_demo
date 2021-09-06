@@ -195,6 +195,41 @@ class AccountDataProvider {
       throw Exception('Failed to save account.');
     }
   }
+
+  Future blockUnblocAccount(String accountNumber) async {
+    final http.Response response = await httpClient.put(
+      Uri.http('$_baseUrl', '/api/admin/block/$accountNumber'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'token': await getToken()
+      },
+    );
+
+    if (response.statusCode == 202) {
+      print(jsonDecode(response.body)['message']);
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Failed to block/unblock.');
+    }
+  }
+
+  Future changeAccountType(String accountNumber, int type) async {
+    final http.Response response = await httpClient.put(
+      Uri.http('$_baseUrl', '/api/admin/change_type/$accountNumber'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'token': await getToken()
+      },
+      body: jsonEncode(<String, int>{"account_type": type}),
+    );
+
+    if (response.statusCode == 202) {
+      print(jsonDecode(response.body)['message']);
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Failed to change account type.');
+    }
+  }
 }
 
 

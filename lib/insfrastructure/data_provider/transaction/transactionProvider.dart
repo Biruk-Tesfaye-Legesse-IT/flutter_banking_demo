@@ -127,6 +127,27 @@ class TransactionDataProvider {
     }
   }
 
+  Future depositToAgent(String recieverAccountNumber, double amount) async {
+    final response = await httpClient.post(
+        Uri.http('$_baseUrl', '/api/admin/deposit/'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'token': await getToken()
+        },
+        body: jsonEncode({
+          "reciever_account_number": recieverAccountNumber,
+          "amount": amount
+        }));
+
+    if (response.statusCode == 201) {
+      print(jsonDecode(response.body)['message']);
+      return jsonDecode(response.body);
+    } else {
+      print(jsonDecode(response.body)['message']);
+      throw Exception("Deposit Failed.");
+    }
+  }
+
   Future agentWithdraw(String recieverAccountNumber, double amount) async {
     final response = await httpClient.post(
         Uri.http('$_baseUrl', '/api/agent/get_cash'),
