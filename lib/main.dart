@@ -24,6 +24,14 @@ void main() {
   runApp(BankingApp(
     accountRepository: repo,
   ));
+  // repo.getCurrentUser();
+
+  // var data_provider = TransactionDataProvider(httpClient: http.Client());
+  // var repo = TransactionRepository(dataProvider: data_provider);
+
+  // repo.depositToAgent('1000000002', 330);
+
+  // runApp(MyApp());
 }
 
 class BankingApp extends StatelessWidget {
