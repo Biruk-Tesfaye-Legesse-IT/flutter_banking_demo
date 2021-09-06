@@ -32,6 +32,11 @@ void main() {
   // var repo = AccountRepository(dataProvider: data_provider);
   // print(repo.login('new', '1234'));
 
+  // var data_provider = AccountDataProvider(httpClient: http.Client());
+  // var repo = AccountRepository(dataProvider: data_provider);
+
+  // repo.login('newClient', '1234');
+
   runApp(MyApp());
 }
 

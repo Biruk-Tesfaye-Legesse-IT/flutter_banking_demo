@@ -62,6 +62,7 @@ class Client extends Equatable {
       accountNumber: json['account_number'],
       firstName: json['first_name'],
       lastName: json['last_name'],
+      fullName: json['fullname'],
       role: json['role'],
       address: json['address'],
       dob: json['DOB'],
@@ -70,20 +71,27 @@ class Client extends Equatable {
       isBlocked: json['is_blocked'],
       balance: json['balance'],
       accountType: json['account_type'],
-      beneficiaries: json['saved'] == Null
+      beneficiaries: json['saved'] != Null
           ? json['saved'].map((account) => Client.fromJson(account)).toList()
           : [],
       registeredBy: json['registered_by']);
 
   Map<String, dynamic> toJson() => {
+        'id': clientID,
+        'account_number': accountNumber,
         'first_name': firstName,
         'last_name': lastName,
+        'fullname': fullName,
         'address': address,
         'email': email,
+        'role': role,
         'phone_number': phoneNumber,
         'DOB': dob,
+        'is_blocked': isBlocked,
         'balance': balance,
+        'account_type': accountType,
         'registered_by': registeredBy,
+        'saved': beneficiaries!.map((account) => account.toJson()).toList(),
       };
   @override
   String toString() =>

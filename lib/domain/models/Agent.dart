@@ -64,20 +64,27 @@ class Agent extends Equatable {
       phoneNumber: json['phone_number'],
       isBlocked: json['is_blocked'],
       budget: json['budget'],
-      registeredUsers: json['registered_clients'] == Null
+      registeredUsers: json['registered_clients'] != Null
           ? json['registered_clients']
               .map((account) => Client.fromJson(account))
               .toList()
           : []);
 
   Map<String, dynamic> toJson() => {
+        'id': agentID,
+        'account_number': accountNumber,
         'first_name': firstName,
         'last_name': lastName,
+        'fullname': fullName,
         'address': address,
-        'DOB': dob,
         'email': email,
+        'role': role,
         'phone_number': phoneNumber,
+        'DOB': dob,
+        'is_blocked': isBlocked,
         'budget': budget,
+        'registered_clients':
+            registeredUsers!.map((account) => account.toJson()).toList()
       };
   @override
   String toString() =>
