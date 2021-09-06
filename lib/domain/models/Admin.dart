@@ -64,6 +64,20 @@ class Admin extends Equatable {
         isBlocked: json['is_blocked'],
         bankBudget: json['bank_budget']);
   }
+  Map<String, dynamic> toJson() => {
+        'id': adminID,
+        'account_number': accountNumber,
+        'first_name': firstName,
+        'last_name': lastName,
+        'fullname': fullName,
+        'address': address,
+        'email': email,
+        'role': role,
+        'phone_number': phoneNumber,
+        'DOB': dob,
+        'is_blocked': isBlocked,
+        'bank_budget': bankBudget,
+      };
 
   @override
   String toString() =>

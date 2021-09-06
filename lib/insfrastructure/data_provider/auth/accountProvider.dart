@@ -24,9 +24,17 @@ class AccountDataProvider {
     final user = prefs.getString('user');
 
     if (user == null) {
-      return "user not found";
+      return null;
+    } else if (jsonDecode(user)['role'] == 'client') {
+      print(Client.fromJson(jsonDecode(user)));
+      return Client.fromJson(jsonDecode(user));
+    } else if (jsonDecode(user)['role'] == 'agent') {
+      print(Agent.fromJson(jsonDecode(user)));
+      return Agent.fromJson(jsonDecode(user));
+    } else if (jsonDecode(user)['role'] == 'admin') {
+      print(Admin.fromJson(jsonDecode(user)));
+      return Admin.fromJson(jsonDecode(user));
     }
-    return jsonDecode(user).fromJson();
   }
 
   Future<void> saveLoggedInUser(user) async {

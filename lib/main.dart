@@ -15,10 +15,10 @@ WidgetsBinding ensureInitialized() {
 void main() {
   ensureInitialized();
 
-  var data_provider = TransactionDataProvider(httpClient: http.Client());
-  var repo = TransactionRepository(dataProvider: data_provider);
+  var data_provider = AccountDataProvider(httpClient: http.Client());
+  var repo = AccountRepository(dataProvider: data_provider);
 
-  repo.getTransactions();
+  repo.login('newClient', '1234');
 
   runApp(MyApp());
 }
