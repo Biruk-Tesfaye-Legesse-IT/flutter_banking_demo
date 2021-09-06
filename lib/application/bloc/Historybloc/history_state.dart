@@ -20,10 +20,12 @@ class HistoryLoading extends HistoryState {
 }
 
 class HistoryLoaded extends HistoryState {
-  final TransactionHistory transactionHistory;
-  const HistoryLoaded(this.transactionHistory);
+  final List<TransactionHistory> transactionHistorys;
+
+  HistoryLoaded([this.transactionHistorys = const []]);
+
   @override
-  List<Object> get props => [TransactionHistory];
+  List<Object> get props => [transactionHistorys];
 }
 
 class HistoryError extends HistoryState {

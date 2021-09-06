@@ -16,11 +16,11 @@ class ClientMenuLayout extends StatelessWidget {
         child: MenuCardLayout(
       InkWell(
         onTap: () {
-          Navigator.of(context).pushNamed('/userhome');
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(builder: (context) => HistoryPage()),
-          // );
+          // Navigator.of(context).pushNamed('/userhome');
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => HistoryPage()),
+          );
         },
         child: RouteCard("Withdraw", Icon(Icons.ac_unit), Colors.blue),
       ),

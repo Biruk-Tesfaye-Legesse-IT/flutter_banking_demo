@@ -1,3 +1,4 @@
+import 'package:final_demo/insfrastructure/insfrastructure.dart';
 import 'package:final_demo/presentation/screens/auth_page/login.dart';
 import 'package:final_demo/presentation/screens/history_page.dart';
 import 'package:final_demo/presentation/screens/saved_accounts.dart';
@@ -29,7 +30,7 @@ class RouteGenerator {
       case LoginPage:
         return MaterialPageRoute(builder: (_) => LoginScreen());
 
-      case '/userHistoryPage':
+      case userHistoryPage:
         return MaterialPageRoute(builder: (_) => HistoryPage());
 
       case userHomePage:

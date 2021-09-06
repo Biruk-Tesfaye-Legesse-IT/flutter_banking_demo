@@ -35,7 +35,7 @@ class TransactionDataProvider {
 
   // ===========================getHistory========================================
 
-  Future getTransactions() async {
+  Future<List<TransactionHistory>> getTransactions() async {
     try {
       final response = await httpClient.get(
         Uri.http('$_baseUrl', '/api/account/transactions'),

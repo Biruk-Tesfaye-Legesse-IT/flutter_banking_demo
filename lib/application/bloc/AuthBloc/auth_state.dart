@@ -9,14 +9,22 @@ abstract class AuthState extends Equatable {
 
 class AuthInitial extends AuthState {}
 
-class LoginInprogress extends AuthState {}
+class AuthenticationUninitialized extends AuthState {}
 
-class LoggedIn extends AuthState {}
+class AuthenticationLoading extends AuthState {}
 
-class LoggedOut extends AuthState {}
+class AuthenticationUnauthenticated extends AuthState {}
 
-class AuthFailed extends AuthState {
-  final String errorMsg;
+class AuthenticationAuthenticated extends AuthState {}
 
-  AuthFailed({required this.errorMsg});
-}
+
+
+// class LoggedIn extends AuthState {}
+
+// class LoggedOut extends AuthState {}
+
+// class AuthFailed extends AuthState {
+//   final String errorMsg;
+
+//   AuthFailed({required this.errorMsg});
+// }
