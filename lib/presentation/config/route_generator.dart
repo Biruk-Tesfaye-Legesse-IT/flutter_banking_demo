@@ -13,7 +13,7 @@ class RouteGenerator {
   // static const String userRandomPage = "/random";
 
   //Client
-  static const String userHomePage = "/userhome";
+  static const String HomePage = "/userhome";
   static const String userHistoryPage = "/userhistory";
   static const String check = "";
 
@@ -33,8 +33,19 @@ class RouteGenerator {
       case userHistoryPage:
         return MaterialPageRoute(builder: (_) => HistoryPage());
 
-      case userHomePage:
-        return MaterialPageRoute(builder: (_) => ClientDashboard());
+      case HomePage:
+        switch (settings.arguments) {
+          case 'client':
+            return MaterialPageRoute(builder: (_) => ClientDashboard());
+          case 'agent':
+            return MaterialPageRoute(
+                builder: (_) => ClientDashboard()); // change this
+          case 'admin':
+            return MaterialPageRoute(
+                builder: (_) => ClientDashboard()); // change this
+          default:
+            return MaterialPageRoute(builder: (_) => LoginScreen());
+        }
 
       // Client Routes
 

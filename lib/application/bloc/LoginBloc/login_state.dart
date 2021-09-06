@@ -12,6 +12,14 @@ class LoginInitial extends LoginState {}
 
 class LoginLoading extends LoginState {}
 
+class LoggingSuccess extends LoginState {
+  final user;
+
+  LoggingSuccess({required this.user});
+  @override
+  List<Object> get props => [user];
+}
+
 class LoginFailure extends LoginState {
   final String error;
 

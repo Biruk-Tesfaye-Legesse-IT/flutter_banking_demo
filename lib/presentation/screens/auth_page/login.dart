@@ -2,6 +2,10 @@ import 'package:final_demo/application/bloc/LoginBloc/login_bloc.dart';
 import 'package:final_demo/application/bloc/AuthBloc/auth_bloc.dart';
 import 'package:final_demo/insfrastructure/data_provider/auth/accountProvider.dart';
 import 'package:final_demo/insfrastructure/repository/auth/accountRepository.dart';
+import 'package:final_demo/presentation/config/route_generator.dart';
+import 'package:final_demo/presentation/screens/client_pages/client_home.dart';
+import 'package:final_demo/presentation/screens/client_pages/client_pages_frame.dart';
+import 'package:final_demo/presentation/screens/history_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
@@ -24,8 +28,7 @@ class LoginScreen extends StatelessWidget {
     );
 
     return BlocProvider(
-      create: (context) =>
-          LoginBloc(accountRepository: repo, authBloc: authBloc),
+      create: (context) => LoginBloc(accountRepository: repo),
       child: Scaffold(
         body: SafeArea(
           child: SingleChildScrollView(
@@ -84,6 +87,13 @@ class StateCheckBloc extends StatelessWidget {
 
           // ScaffoldMessenger.of(context).showSnackBar(snackBar);
           CircularProgressIndicator();
+        }
+
+        if (loginState is LoggingSuccess) {
+          // buttonChild = Text(authState.errorMsg);
+          String role = loginState.user.role;
+          Navigator.of(context)
+              .pushNamed(RouteGenerator.HomePage, arguments: role);
         }
 
         if (loginState is LoginFailure) {

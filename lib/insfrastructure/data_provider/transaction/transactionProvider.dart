@@ -25,7 +25,7 @@ class TransactionDataProvider {
     final prefs = await SharedPreferences.getInstance();
     final transactions = prefs.getString('transactions');
     if (transactions == null) {
-      return null;
+      throw Exception('No transaction found.');
     }
     var transObjs = jsonDecode(transactions)
         .map((transaction) => TransactionHistory.fromJson(transaction))
@@ -35,7 +35,7 @@ class TransactionDataProvider {
 
   // ===========================getHistory========================================
 
-  Future<List<TransactionHistory>> getTransactions() async {
+  Future getTransactions() async {
     try {
       final response = await httpClient.get(
         Uri.http('$_baseUrl', '/api/account/transactions'),

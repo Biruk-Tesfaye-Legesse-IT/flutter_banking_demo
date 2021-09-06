@@ -7,7 +7,7 @@ class TransactionRepository {
 
   TransactionRepository({required this.dataProvider});
 
-  Future<List<TransactionHistory>> getTransactions() async {
+  Future getTransactions() async {
     return await dataProvider.getTransactions();
   }
 

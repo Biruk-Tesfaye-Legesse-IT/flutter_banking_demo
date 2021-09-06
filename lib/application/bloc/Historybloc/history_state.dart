@@ -20,7 +20,7 @@ class HistoryLoading extends HistoryState {
 }
 
 class HistoryLoaded extends HistoryState {
-  final List<TransactionHistory> transactionHistorys;
+  final transactionHistorys;
 
   HistoryLoaded([this.transactionHistorys = const []]);
 

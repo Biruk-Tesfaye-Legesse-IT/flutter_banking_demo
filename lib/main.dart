@@ -15,7 +15,7 @@ WidgetsBinding ensureInitialized() {
   return WidgetsBinding.instance!;
 }
 
-void main() {
+void main() async {
   ensureInitialized();
 
   final repo = AccountRepository(

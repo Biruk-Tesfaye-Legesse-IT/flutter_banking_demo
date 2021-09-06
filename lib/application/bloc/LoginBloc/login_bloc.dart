@@ -13,10 +13,9 @@ part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final AccountRepository accountRepository;
-  final AuthBloc authBloc;
+  // final AuthBloc authBloc;
 
-  LoginBloc({required this.accountRepository, required this.authBloc})
-      : super(LoginInitial());
+  LoginBloc({required this.accountRepository}) : super(LoginInitial());
 
   @override
   Stream<LoginState> mapEventToState(
@@ -30,11 +29,17 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       yield LoginLoading();
 
       try {
-        accountRepository.login(email, password);
+        var login = await accountRepository.login(email, password);
         print('$email and $password');
+        print(login);
 
-        authBloc.add(LoggedIn());
-        print('what do I do now?');
+        if (login != null) {
+          yield LoggingSuccess(user: login);
+        } else {
+          yield LoginFailure(error: "Login Failed");
+        }
+        // authBloc.add(LoggedIn());
+        // print('what do I do now?');
       } catch (error) {
         // authBloc.add();
         yield LoginFailure(error: error.toString());
