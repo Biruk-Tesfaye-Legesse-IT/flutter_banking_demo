@@ -4,6 +4,8 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:final_demo/application/bloc/AuthBloc/auth_bloc.dart';
 import 'package:final_demo/insfrastructure/insfrastructure.dart';
+import 'package:final_demo/presentation/screens/client_pages/client_home.dart';
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
 part 'login_event.dart';
@@ -31,10 +33,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         accountRepository.login(email, password);
         print('$email and $password');
 
-        // authBloc.dispatch(LoggedIn(accountNumber: accountNumber));
+        authBloc.add(LoggedIn());
         print('what do I do now?');
-        // yield LoginInitial();
       } catch (error) {
+        // authBloc.add();
         yield LoginFailure(error: error.toString());
       }
     }

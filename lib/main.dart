@@ -1,5 +1,5 @@
 import 'package:final_demo/domain/models/Agent.dart';
-import 'package:final_demo/presentation/bloc_observer.dart';
+
 import 'package:flutter/material.dart';
 import 'package:final_demo/presentation/config/route_generator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,7 +17,7 @@ WidgetsBinding ensureInitialized() {
 
 void main() {
   ensureInitialized();
-  // Bloc.observer = SimpleBlocObserver();
+
   final repo = AccountRepository(
       dataProvider: AccountDataProvider(httpClient: http.Client()));
 

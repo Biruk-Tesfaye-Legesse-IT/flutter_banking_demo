@@ -13,6 +13,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   AuthBloc(this.accountRepository) : super(AuthenticationUninitialized());
 
+  // This code was designed to check if cache was clean or not to determine the state to be yilded.
+  // This needs to be fixed
+
   @override
   Stream<AuthState> mapEventToState(
     AuthEvent event,

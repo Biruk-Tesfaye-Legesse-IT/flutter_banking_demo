@@ -2,10 +2,6 @@ import 'package:final_demo/application/bloc/LoginBloc/login_bloc.dart';
 import 'package:final_demo/application/bloc/AuthBloc/auth_bloc.dart';
 import 'package:final_demo/insfrastructure/data_provider/auth/accountProvider.dart';
 import 'package:final_demo/insfrastructure/repository/auth/accountRepository.dart';
-import 'package:final_demo/presentation/config/route_generator.dart';
-import 'package:final_demo/presentation/screens/client_pages/client_home.dart';
-// import 'package:final_demo/presentation/screens/client_pages/client_home.dart';
-// import 'package:final_demo/presentation/screens/client_pages/client_pages_frame.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
@@ -21,6 +17,8 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authBloc = BlocProvider.of<AuthBloc>(context);
+
+    // final loginBloc = BlocProvider.of<LoginBloc>(context).state;
     final inputFieldStyle = InputDecoration(
       border: OutlineInputBorder(),
     );
@@ -84,7 +82,8 @@ class StateCheckBloc extends StatelessWidget {
         if (loginState is LoginLoading) {
           final snackBar = SnackBar(content: Text("Login in progress"));
 
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          CircularProgressIndicator();
         }
 
         if (loginState is LoginFailure) {
