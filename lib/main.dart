@@ -18,7 +18,7 @@ void main() {
   var data_provider = AccountDataProvider(httpClient: http.Client());
   var repo = AccountRepository(dataProvider: data_provider);
 
-  repo.changeAccountType('1000000009', 1);
+  repo.getCurrentUser();
 
   // var data_provider = TransactionDataProvider(httpClient: http.Client());
   // var repo = TransactionRepository(dataProvider: data_provider);

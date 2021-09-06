@@ -91,9 +91,9 @@ class Client extends Equatable {
         'balance': balance,
         'account_type': accountType,
         'registered_by': registeredBy,
-        'saved': beneficiaries!.map((account) => account.toJson()).toList(),
+        'saved': beneficiaries,
       };
   @override
   String toString() =>
-      'Client { account_number: $accountNumber, first_name: $firstName, last_name: $lastName, fullname: $fullName,role: $role, address: $address, DOB: $dob, is_blocked:$isBlocked, balance:$balance, account_type: $accountType, saved: $beneficiaries}';
+      'Client { account_number: $accountNumber, first_name: $firstName, last_name: $lastName, fullname: $fullName,role: $role, address: $address, DOB: $dob, is_blocked:$isBlocked, balance:$balance, account_type: $accountType}';
 }
