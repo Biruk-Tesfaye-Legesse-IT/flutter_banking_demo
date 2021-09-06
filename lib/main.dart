@@ -3,6 +3,7 @@ import 'package:final_demo/presentation/config/route_generator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'application/bloc/AuthBloc/auth_bloc.dart';
+import 'package:http/http.dart' as http;
 
 // import 'package:final_demo/insfrastructure/data_provider/data_provider.dart';
 // import 'package:final_demo/insfrastructure/repository/repository.dart';
@@ -16,21 +17,20 @@ WidgetsBinding ensureInitialized() {
   return WidgetsBinding.instance!;
 }
 
+// void main() => runApp(MyApp());
+
 void main() {
   ensureInitialized();
 
   // var data_provider = TransactionDataProvider(httpClient: http.Client());
   // var repo = TransactionRepository(dataProvider: data_provider);
-
-// void main() => runApp(MyApp());
+  // repo.getTransactions();
 
 // void main() {
   // ignore: non_constant_identifier_names
   // var data_provider = AccountDataProvider(httpClient: http.Client());
   // var repo = AccountRepository(dataProvider: data_provider);
   // print(repo.login('new', '1234'));
-
-  // repo.getTransactions();
 
   runApp(MyApp());
 }

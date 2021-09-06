@@ -18,7 +18,8 @@ class TransactionDataProvider {
       Uri.http('$_baseUrl', '/api/account/transactions'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
-        'token': await getToken()
+        'token':
+            "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50X251bWJlciI6MTAwMDAwMDAxMCwiZXhwIjoxNjMwODgwMzM4fQ.OI5OAjbFMe2R--6b9-pCgoh2m-WefF4PXpzmhVPJR70"
       },
     );
 
