@@ -36,63 +36,33 @@ class TransactionDataProvider {
   // ===========================getHistory========================================
 
   Future<List<TransactionHistory>> getTransactions() async {
-    final response = await httpClient.get(
-      Uri.http('$_baseUrl', '/api/account/transactions'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'token': await getToken()
-      },
-    );
+    try {
+      final response = await httpClient.get(
+        Uri.http('$_baseUrl', '/api/account/transactions'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'token': await getToken()
+        },
+      );
 
-    if (response.statusCode == 200) {
-      var data = jsonDecode(response.body) as List;
-      var transactionList = data
-          .map((transaction) => TransactionHistory.fromJson(transaction))
-          .toList();
-      print("setting transactions to cache");
-      saveTransactionInCache(transactionList);
-      return transactionList;
-      // eturn transactionList.toList();    
-    } else {
-      throw Exception("Can not find transaction.");}
-          } on SocketException catch (_) {
-          print("the device is offline, history from cache");
-          var transactions = await getHistoryFromCache();
-          print(transactions);
-          return transactions;
-        }}
-  };
-
-  //     Future getTransactions() async {
-  //       try {
-  //         final response = await httpClient.get(
-  //           Uri.http('$_baseUrl', '/api/account/transactions'),
-  //           headers: <String, String>{
-  //             'Content-Type': 'application/json; charset=UTF-8',
-  //             'token': await getToken()
-  //           },
-  //         );
-
-  //         if (response.statusCode == 200) {
-  //           var data = jsonDecode(response.body);
-  //           var transactionList = data
-  //               .map((transaction) => TransactionHistory.fromJson(transaction))
-  //               .toList();
-  //           print("setting transactions to cache");
-  //           saveTransactionInCache(transactionList);
-  //           return transactionList;
-  //         } else {
-  //           throw Exception("Can not find transaction.");
-  //         }
-  //       } on SocketException catch (_) {
-  //         print("the device is offline, history from cache");
-  //         var transactions = await getHistoryFromCache();
-  //         print(transactions);
-  //         return transactions;
-  //       }
-  //     }
-  //   }}
-  // }
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body);
+        var transactionList = data
+            .map((transaction) => TransactionHistory.fromJson(transaction))
+            .toList();
+        print("setting transactions to cache");
+        saveTransactionInCache(transactionList);
+        return transactionList;
+      } else {
+        throw Exception("Can not find transaction.");
+      }
+    } on SocketException catch (_) {
+      print("the device is offline, history from cache");
+      var transactions = await getHistoryFromCache();
+      print(transactions);
+      return transactions;
+    }
+  }
 
   Future transfer(String recieverAccountNumber, double amount) async {
     final response = await httpClient.post(
