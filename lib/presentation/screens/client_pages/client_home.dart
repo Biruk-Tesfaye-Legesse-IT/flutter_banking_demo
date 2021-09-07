@@ -1,33 +1,59 @@
+import 'package:final_demo/presentation/screens/auth_page/login.dart';
 import 'package:final_demo/presentation/widgets/bank_name.dart';
+import 'package:final_demo/application/bloc/account/account_bloc.dart';
+import 'package:final_demo/insfrastructure/repository/auth/accountRepository.dart';
+import 'package:final_demo/insfrastructure/data_provider/auth/accountProvider.dart';
 import 'package:final_demo/presentation/widgets/custom_client_widgets/client_menu.dart';
 import 'package:final_demo/presentation/widgets/info_card.dart';
 // import 'package:final_demo/presentation/widgets/menu_card_layout.dart';
 import 'package:final_demo/presentation/widgets/name_card.dart';
 import 'package:final_demo/presentation/theme/color_const.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:http/http.dart' as http;
 
 class ClientHomePage extends StatelessWidget {
-  const ClientHomePage({Key? key}) : super(key: key);
+  ClientHomePage({Key? key}) : super(key: key);
+
+  final repo = AccountRepository(
+      dataProvider: AccountDataProvider(httpClient: http.Client()));
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.primaryWhite,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-            //Top Container
-            color: AppColors.primaryWhite,
-            child: Column(
-              children: [
-                BankName(),
-                NameCard('Frank Sinatra', 'Client'),
-                InfoCard('Gold', '1000 000 000', '\$2500.00'),
-                ClientMenuLayout(),
-              ],
-            ),
-          ),
-        ),
+    return RepositoryProvider.value(
+      value: this.repo,
+      child: BlocProvider<AccountBloc>(
+        create: (context) =>
+            AccountBloc(accountRepository: this.repo)..add(GetAccount()),
+        child: BlocBuilder(builder: (context, state) {
+          if (state is AccountLoading) {
+            return CircularProgressIndicator();
+          } else if (state is AccountLoaded) {
+            var user = state.user;
+            return Scaffold(
+              backgroundColor: AppColors.primaryWhite,
+              body: SafeArea(
+                child: SingleChildScrollView(
+                  child: Container(
+                    //Top Container
+                    color: AppColors.primaryWhite,
+                    child: Column(
+                      children: [
+                        BankName(),
+                        NameCard('${user.fullname}', '${user.role}'),
+                        InfoCard('${user.accountType}', '${user.accountNumber}',
+                            '\$${user.balance}'),
+                        ClientMenuLayout(),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            );
+          } else {
+            return LoginScreen();
+          }
+        }),
       ),
     );
   }
