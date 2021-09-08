@@ -1,10 +1,13 @@
 import 'package:final_demo/insfrastructure/insfrastructure.dart';
+import 'package:final_demo/presentation/screens/admin_pages/admin_pages_frame.dart';
+import 'package:final_demo/presentation/screens/agent_pages/agent_pages_frame.dart';
 import 'package:final_demo/presentation/screens/auth_page/login.dart';
 import 'package:final_demo/presentation/screens/history_page.dart';
 import 'package:final_demo/presentation/screens/saved_accounts.dart';
 import 'package:flutter/material.dart';
 import 'package:final_demo/presentation/screens/account_info.dart';
 import 'package:final_demo/presentation/screens/client_pages/client_pages_frame.dart';
+import 'package:final_demo/presentation/screens/transfer_screen.dart';
 // import 'package:final_demo/screens/other.dart';
 
 class RouteGenerator {
@@ -16,6 +19,7 @@ class RouteGenerator {
   static const String HomePage = "/userhome";
   static const String userHistoryPage = "/userhistory";
   static const String check = "";
+  static const String TransferPageRoute = "/transfer";
 
   //Agent
   // static const String agentHomePage = "/agenthistory";
@@ -33,16 +37,19 @@ class RouteGenerator {
       case userHistoryPage:
         return MaterialPageRoute(builder: (_) => HistoryPage());
 
+      case TransferPageRoute:
+        return MaterialPageRoute(builder: (_) => TransferPage());
+
       case HomePage:
         switch (settings.arguments) {
           case 'client':
             return MaterialPageRoute(builder: (_) => ClientDashboard());
           case 'agent':
             return MaterialPageRoute(
-                builder: (_) => ClientDashboard()); // change this
+                builder: (_) => AgentDashboard()); // change this
           case 'admin':
             return MaterialPageRoute(
-                builder: (_) => ClientDashboard()); // change this
+                builder: (_) => AdminDashboard()); // change this
           default:
             return MaterialPageRoute(builder: (_) => LoginScreen());
         }
@@ -59,8 +66,8 @@ class RouteGenerator {
       // )};
       //   return MaterialPageRoute(builder: (_) => AccountInfo());
 
-      case '/saved':
-        return MaterialPageRoute(builder: (_) => SavedAccounts());
+      // case '/saved':
+      //   return MaterialPageRoute(builder: (_) => SavedAccounts());
 
       // Agent Routes
       // case agentHomePage:

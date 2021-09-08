@@ -25,34 +25,49 @@ class InfoCard extends StatelessWidget {
                   ListTile(
                     title: Text(
                       'Account Type ',
-                      style: TextStyle(color: Colors.cyanAccent, fontSize: 20),
+                      style: TextStyle(
+                          color: Colors.cyanAccent,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
                     ),
                     trailing: Text(
                       this.AccType,
-                      style:
-                          TextStyle(color: Colors.yellowAccent, fontSize: 20),
+                      style: TextStyle(
+                          color: Colors.yellowAccent,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
                   ListTile(
                     title: Text(
                       'Account Number ',
-                      style: TextStyle(color: Colors.cyanAccent, fontSize: 20),
+                      style: TextStyle(
+                          color: Colors.cyanAccent,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
                     ),
                     trailing: Text(
                       this.AccNum,
-                      style:
-                          TextStyle(color: Colors.yellowAccent, fontSize: 20),
+                      style: TextStyle(
+                          color: Colors.yellowAccent,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
                   ListTile(
                     title: Text(
                       'Account Balance ',
-                      style: TextStyle(color: Colors.cyanAccent, fontSize: 20),
+                      style: TextStyle(
+                          color: Colors.cyanAccent,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
                     ),
                     trailing: Text(
                       this.AccBalance,
-                      style:
-                          TextStyle(color: Colors.yellowAccent, fontSize: 20),
+                      style: TextStyle(
+                          color: Colors.yellowAccent,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
                 ],
