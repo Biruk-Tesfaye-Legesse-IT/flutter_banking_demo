@@ -103,7 +103,7 @@ class AccountDataProvider {
       return jsonDecode(response.body)['message'];
     } else {
       print(jsonDecode(response.body)['message']);
-      throw Exception("Failed to create agent account");
+      throw Exception(jsonDecode(response.body)['message']);
     }
   }
 
