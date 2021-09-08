@@ -20,12 +20,11 @@ class ClientHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider.value(
-      value: this.repo,
-      child: BlocProvider<AccountBloc>(
-        create: (context) =>
-            AccountBloc(accountRepository: this.repo)..add(GetAccount()),
-        child: BlocBuilder(builder: (context, state) {
+    return BlocProvider(
+      create: (context) =>
+          AccountBloc(accountRepository: this.repo)..add(GetAccount()),
+      child: BlocBuilder<AccountBloc, AccountState>(
+        builder: (context, state) {
           if (state is AccountLoading) {
             return CircularProgressIndicator();
           } else if (state is AccountLoaded) {
@@ -40,7 +39,7 @@ class ClientHomePage extends StatelessWidget {
                     child: Column(
                       children: [
                         BankName(),
-                        NameCard('${user.fullname}', '${user.role}'),
+                        NameCard('${user.fullName}', '${user.role}'),
                         InfoCard('${user.accountType}', '${user.accountNumber}',
                             '\$${user.balance}'),
                         ClientMenuLayout(),
@@ -51,9 +50,9 @@ class ClientHomePage extends StatelessWidget {
               ),
             );
           } else {
-            return LoginScreen();
+            return Center();
           }
-        }),
+        },
       ),
     );
   }
