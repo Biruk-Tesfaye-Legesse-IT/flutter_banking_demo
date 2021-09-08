@@ -1,5 +1,5 @@
 import 'package:final_demo/application/bloc/LoginBloc/login_bloc.dart';
-import 'package:final_demo/application/bloc/AuthBloc/auth_bloc.dart';
+// import 'package:final_demo/application/bloc/auth_bloc/auth_bloc.dart';
 import 'package:final_demo/insfrastructure/data_provider/auth/accountProvider.dart';
 import 'package:final_demo/insfrastructure/repository/auth/accountRepository.dart';
 import 'package:final_demo/presentation/config/route_generator.dart';
@@ -20,7 +20,7 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authBloc = BlocProvider.of<AuthBloc>(context);
+    // final authBloc = BlocProvider.of<AuthBloc>(context);
 
     // final loginBloc = BlocProvider.of<LoginBloc>(context).state;
     final inputFieldStyle = InputDecoration(

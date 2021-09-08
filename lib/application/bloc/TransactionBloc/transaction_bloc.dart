@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:final_demo/application/bloc/AuthBloc/auth_bloc.dart';
+// import 'package:final_demo/application/bloc/auth_bloc/auth_bloc.dart';
 import 'package:final_demo/insfrastructure/insfrastructure.dart';
 
 import 'package:flutter/material.dart';

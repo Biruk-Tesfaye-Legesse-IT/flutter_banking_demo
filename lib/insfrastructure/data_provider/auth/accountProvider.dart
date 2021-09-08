@@ -166,7 +166,7 @@ class AccountDataProvider {
     );
 
     if (response.statusCode == 201) {
-      return jsonDecode(response.body);
+      return jsonDecode(response.body)['message'];
     } else {
       print(jsonDecode(response.body)['message']);
       throw Exception(jsonDecode(response.body)['message']);
@@ -183,7 +183,7 @@ class AccountDataProvider {
     );
 
     if (response.statusCode == 201) {
-      return jsonDecode(response.body);
+      return jsonDecode(response.body)['message'];
     } else {
       print(jsonDecode(response.body)['message']);
       throw Exception(jsonDecode(response.body)['message']);
@@ -200,7 +200,7 @@ class AccountDataProvider {
     );
 
     if (response.statusCode == 202) {
-      return jsonDecode(response.body);
+      return jsonDecode(response.body)['message'];
     } else {
       print(jsonDecode(response.body)['message']);
       throw Exception(jsonDecode(response.body)['message']);
@@ -217,7 +217,7 @@ class AccountDataProvider {
     );
 
     if (response.statusCode == 202) {
-      return jsonDecode(response.body);
+      return jsonDecode(response.body)['message'];
     } else {
       throw Exception(jsonDecode(response.body)['message']);
     }
@@ -234,86 +234,9 @@ class AccountDataProvider {
     );
 
     if (response.statusCode == 202) {
-      return jsonDecode(response.body);
+      return jsonDecode(response.body)['message'];
     } else {
       throw Exception(jsonDecode(response.body)['message']);
     }
   }
 }
-
-
-
-
-
-  // ============================== Create =========================================
-
-  // Future<Client> createCourse(Client client) async {
-  //   final response = await httpClient.post(
-  //     Uri.http('192.168.56.1:3000', '/courses'),
-  //     headers: <String, String>{
-  //       'Content-Type': 'application/json; charset=UTF-8',
-  //     },
-  //     body: jsonEncode(<String, dynamic>{
-
-  //     }),
-  //   );
-
-  //   if (response.statusCode == 200) {
-  //     return Course.fromJson(jsonDecode(response.body));
-  //   } else {
-  //     throw Exception('Failed to create course.');
-  //   }
-  // }
-
-  // ============================GetBalance================================
-
-  // Future<Client> getBalance() async {
-  //   final response = await httpClient.get(Uri.http('$_baseUrl', 'users/12345'));
-
-  //   if (response.statusCode == 200) {
-  //     final userInfo = jsonDecode(response.body); // // // // HIGHLY DOUBT
-  //     print(userInfo.balance);
-  //     return userInfo.balnce;
-  //   } else {
-  //     throw Exception('');
-  //   }
-  // }
-
-  // =================================Delete====================================
-
-  // Future<void> deleteCourse(String id) async {
-  //   final http.Response response = await httpClient.delete(
-  //     '$_baseUrl/courses/$id',
-  //     headers: <String, String>{
-  //       'Content-Type': 'application/json; charset=UTF-8',
-  //     },
-  //   );
-
-  //   if (response.statusCode != 204) {
-  //     throw Exception('Failed to delete course.');
-  //   }
-  // }
-
-  // ======================================Update=====================================
-
-  // Future<void> updateCourse(Course course) async {
-  //   final http.Response response = await httpClient.put(
-  //     '$_baseUrl/courses/${course.id}',
-  //     headers: <String, String>{
-  //       'Content-Type': 'application/json; charset=UTF-8',
-  //     },
-  //     body: jsonEncode(<String, dynamic>{
-  //       'id': course.id,
-  //       'title': course.title,
-  //       'code': course.code,
-  //       'description': course.description,
-  //       'ects': course.ects,
-  //     }),
-  //   );
-
-  //   if (response.statusCode != 204) {
-  //     throw Exception('Failed to update course.');
-  //   }
-  // }
-
-

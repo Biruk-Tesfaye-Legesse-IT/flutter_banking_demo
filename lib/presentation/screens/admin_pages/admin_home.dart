@@ -1,6 +1,6 @@
 import 'package:final_demo/presentation/screens/auth_page/login.dart';
 import 'package:final_demo/presentation/widgets/bank_name.dart';
-import 'package:final_demo/application/bloc/account/account_bloc.dart';
+import 'package:final_demo/application/bloc/AuthBloc/auth_bloc.dart';
 import 'package:final_demo/insfrastructure/repository/auth/accountRepository.dart';
 import 'package:final_demo/insfrastructure/data_provider/auth/accountProvider.dart';
 import 'package:final_demo/presentation/widgets/custom_client_widgets/client_menu.dart';
@@ -22,11 +22,10 @@ class AdminHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return RepositoryProvider.value(
       value: this.repo,
-      child: BlocProvider<AccountBloc>(
+      child: BlocProvider<AuthBloc>(
         create: (context) =>
-            AccountBloc(accountRepository: this.repo)..add(GetAccount()),
-        child:
-            BlocBuilder<AccountBloc, AccountState>(builder: (context, state) {
+            AuthBloc(accountRepository: this.repo)..add(GetMyAccount()),
+        child: BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
           if (state is AccountLoading) {
             return CircularProgressIndicator();
           } else if (state is AccountLoaded) {

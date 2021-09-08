@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:final_demo/presentation/config/route_generator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'application/bloc/AuthBloc/auth_bloc.dart';
+// import 'application/bloc/auth_bloc/auth_bloc.dart';
 import 'application/bloc/AuthBloc/auth_bloc.dart';
 
 import 'package:final_demo/insfrastructure/data_provider/data_provider.dart';
@@ -45,7 +45,8 @@ class BankingApp extends StatelessWidget {
     return RepositoryProvider.value(
       value: this.accountRepository,
       child: BlocProvider(
-        create: (context) => AuthBloc(this.accountRepository),
+        create: (context) =>
+            AuthBloc(accountRepository: this.accountRepository),
         child: MaterialApp(
           title: 'Banking App',
           theme: ThemeData(
