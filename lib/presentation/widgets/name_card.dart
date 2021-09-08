@@ -37,11 +37,15 @@ class NameCard extends StatelessWidget {
                 ),
                 title: Text(
                   this.name,
-                  style: TextStyle(color: Colors.cyanAccent, fontSize: 20),
+                  style: TextStyle(
+                      color: Colors.cyanAccent,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
                 ),
                 subtitle: Text(
                   this.role,
-                  style: TextStyle(color: Colors.yellowAccent),
+                  style: TextStyle(
+                      color: Colors.yellowAccent, fontWeight: FontWeight.bold),
                 ),
               ),
             ),

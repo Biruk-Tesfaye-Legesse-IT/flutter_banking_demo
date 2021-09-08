@@ -33,7 +33,10 @@ class RouteCard extends StatelessWidget {
                     alignment: Alignment.bottomLeft,
                     child: Text(
                       this.functionality,
-                      style: TextStyle(color: Colors.cyanAccent, fontSize: 15),
+                      style: TextStyle(
+                          color: Colors.cyanAccent,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold),
                     ))
               ],
             ),

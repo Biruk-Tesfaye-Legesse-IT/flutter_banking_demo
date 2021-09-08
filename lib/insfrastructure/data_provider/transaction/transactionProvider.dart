@@ -78,7 +78,7 @@ class TransactionDataProvider {
 
     if (response.statusCode == 201) {
       print(jsonDecode(response.body)['message']);
-      return jsonDecode(response.body);
+      return jsonDecode(response.body)['message'];
     } else {
       print(jsonDecode(response.body)['message']);
       throw Exception("Tranfer Failed.");

@@ -20,41 +20,43 @@ class ClientHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>
-          AccountBloc(accountRepository: this.repo)..add(GetAccount()),
-      child: BlocBuilder<AccountBloc, AccountState>(
-        builder: (context, state) {
-          if (state is AccountLoading) {
-            return CircularProgressIndicator();
-          } else if (state is AccountLoaded) {
-            var user = state.user;
-            return Scaffold(
-              backgroundColor: AppColors.primaryWhite,
-              body: SafeArea(
-                child: SingleChildScrollView(
-                  child: Container(
-                    //Top Container
-                    color: AppColors.primaryWhite,
-                    child: Column(
-                      children: [
-                        BankName(),
-                        NameCard('${user.fullName}', '${user.role}'),
-                        InfoCard('${user.accountType}', '${user.accountNumber}',
-                            '\$${user.balance}'),
-                        ClientMenuLayout(),
-                      ],
+    return RepositoryProvider.value(
+        value: this.repo,
+        child: BlocProvider<AccountBloc>(
+          create: (context) =>
+              AccountBloc(accountRepository: this.repo)..add(GetAccount()),
+          child: BlocBuilder<AccountBloc, AccountState>(
+            builder: (context, state) {
+              if (state is AccountLoading) {
+                return CircularProgressIndicator();
+              } else if (state is AccountLoaded) {
+                var user = state.user;
+                return Scaffold(
+                  backgroundColor: AppColors.primaryWhite,
+                  body: SafeArea(
+                    child: SingleChildScrollView(
+                      child: Container(
+                        //Top Container
+                        color: AppColors.primaryWhite,
+                        child: Column(
+                          children: [
+                            BankName(),
+                            NameCard('${user.fullName}', '${user.role}'),
+                            InfoCard('${user.accountType}',
+                                '${user.accountNumber}', '\$${user.balance}'),
+                            ClientMenuLayout(),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-            );
-          } else {
-            return Center();
-          }
-        },
-      ),
-    );
+                );
+              } else {
+                return Center();
+              }
+            },
+          ),
+        ));
   }
 }
 
