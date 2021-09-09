@@ -93,8 +93,8 @@ class StateCheckBloc extends StatelessWidget {
           CircularProgressIndicator();
         }
 
-        if (transactionState is ClientTransferSuccess) {
-          String message = transactionState.transferMessage;
+        if (transactionState is ClientWithdrawSuccess) {
+          String message = transactionState.withdrawMessage;
 
           final snackBar = SnackBar(content: Text(message));
 

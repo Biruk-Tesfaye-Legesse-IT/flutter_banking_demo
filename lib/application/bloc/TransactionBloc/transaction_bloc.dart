@@ -56,7 +56,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
 
       try {
         var withdraw =
-            await transactionRepository.transfer(agentAccount, amount);
+            await transactionRepository.withdraw(agentAccount, amount);
         print('$amount and $agentAccount');
         print(withdraw);
 
