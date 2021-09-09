@@ -1,8 +1,8 @@
+import 'package:final_demo/domain/models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:final_demo/application/bloc/AuthBloc/auth_bloc.dart';
-import 'package:final_demo/application/bloc/LoginBloc/login_bloc.dart';
 
 import 'package:final_demo/insfrastructure/data_provider/auth/accountProvider.dart';
 import 'package:final_demo/insfrastructure/repository/auth/accountRepository.dart';
@@ -11,7 +11,7 @@ import 'package:final_demo/presentation/screens/client_pages/client_home.dart';
 import 'package:final_demo/presentation/screens/client_pages/client_pages_frame.dart';
 import 'package:final_demo/presentation/screens/history_page.dart';
 
-class RegisterClient extends StatelessWidget {
+class ClientRegister extends StatelessWidget {
   final repo = AccountRepository(
       dataProvider: AccountDataProvider(httpClient: http.Client()));
 
@@ -35,9 +35,10 @@ class RegisterClient extends StatelessWidget {
       border: OutlineInputBorder(),
     );
 
-    return BlocProvider(
-      create: (context) => LoginBloc(accountRepository: repo),
+    return BlocProvider<AuthBloc>(
+      create: (context) => AuthBloc(accountRepository: repo),
       child: Scaffold(
+        appBar: AppBar(),
         body: SafeArea(
           child: SingleChildScrollView(
             child: Container(
@@ -61,9 +62,6 @@ class RegisterClient extends StatelessWidget {
                           inputFieldStyle: inputFieldStyle),
                       Address(
                           addressTextController: addressTextController,
-                          inputFieldStyle: inputFieldStyle),
-                      Password(
-                          passwordTextController: passwordTextController,
                           inputFieldStyle: inputFieldStyle),
                       Email(
                         emailTextController: emailTextController,
@@ -122,46 +120,93 @@ class StateCheckBloc extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<LoginBloc>(context).state;
-    return BlocConsumer<AuthBloc, AuthState>(
-      listener: (context, authState) {
-        // if (loginState is ) {
-        //   Navigator.of(context).pushNamed('/userhome');
-        // }
-        if (authState is Proccessing) {
-          final snackBar = SnackBar(content: Text("Login in progress"));
+    final repo = AccountRepository(
+        dataProvider: AccountDataProvider(httpClient: http.Client()));
+    return BlocProvider(
+      create: (context) => AuthBloc(accountRepository: repo),
+      child: BlocConsumer<AuthBloc, AuthState>(
+        listener: (context, authState) {
+          // if (loginState is ) {
+          //   Navigator.of(context).pushNamed('/userhome');
+          // }
+          if (authState is Proccessing) {
+            final snackBar = SnackBar(content: Text(authState.message));
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            // CircularProgressIndicator();
+          }
 
-          // ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          CircularProgressIndicator();
-        }
+          if (authState is ProccessFinished) {
+            // final snackBar = SnackBar(
+            //   content: Text(authState.message),
+            //   duration: Duration(seconds: 5),
+            // );
+            // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            firstNAmeTextController.clear();
+            lastNameTextController.clear();
+            dobTextController.clear();
+            addressTextController.clear();
+            passwordTextController.clear();
+            emailTextController.clear();
+            phoneNumberTextController.clear();
+            balanceTextController.clear();
 
-        if (authState is ProccessFinished) {
-          // buttonChild = Text(authState.errorMsg);
-          // String role = authState.user.role;
-          // Navigator.of(context)
-          //     .pushNamed(RouteGenerator.HomePage, arguments: role);
-        }
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (_) => OTP(tempPassword: authState.message)));
 
-        if (authState is ProccessFailed) {
-          // buttonChild = Text(authState.errorMsg);
+            // buttonChild = Text(authState.errorMsg);
+            // String role = authState.user.role;
+            // Navigator.of(context)
+            //     .pushNamed(RouteGenerator.HomePage, arguments: role);
+          }
 
-          final snackBar = SnackBar(content: Text(authState.error));
+          if (authState is ProccessFailed) {
+            // buttonChild = Text(authState.errorMsg);
 
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        }
-      },
-      builder: (ctx, authState) {
-        return RegisterButton(
-          firstNAmeTextController: firstNAmeTextController,
-          lastNameTextController: lastNameTextController,
-          dobTextController: dobTextController,
-          addressTextController: addressTextController,
-          passwordTextController: passwordTextController,
-          emailTextController: emailTextController,
-          phoneNumberTextController: phoneNumberTextController,
-          balanceTextController: balanceTextController,
-        );
-      },
+            final snackBar = SnackBar(content: Text(authState.error));
+
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          }
+        },
+        builder: (ctx, authState) {
+          return RegisterButton(
+            firstNAmeTextController: firstNAmeTextController,
+            lastNameTextController: lastNameTextController,
+            dobTextController: dobTextController,
+            addressTextController: addressTextController,
+            passwordTextController: passwordTextController,
+            emailTextController: emailTextController,
+            phoneNumberTextController: phoneNumberTextController,
+            balanceTextController: balanceTextController,
+          );
+        },
+      ),
+    );
+  }
+}
+
+class OTP extends StatelessWidget {
+  final tempPassword;
+
+  OTP({required this.tempPassword});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: Container(
+        margin: EdgeInsets.all(20),
+        child: Center(
+          child: Column(
+            children: [
+              Text('Client password is ${this.tempPassword},'),
+              Text('Client is advised to change this immediately.')
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
@@ -208,11 +253,16 @@ class RegisterButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        final authBloc = BlocProvider.of<LoginBloc>(context);
-
-        authBloc.add(LoginButtonPressed(
+        final authBloc = BlocProvider.of<AuthBloc>(context);
+        Client client = Client(
+            firstName: firstNAmeTextController.text,
+            lastName: lastNameTextController.text,
+            dob: dobTextController.text,
             email: emailTextController.text,
-            password: passwordTextController.text));
+            phoneNumber: phoneNumberTextController.text,
+            address: addressTextController.text,
+            balance: double.parse(balanceTextController.text));
+        authBloc.add(RegisterClient(client: client));
       },
       child: Text("Register"),
     );
@@ -254,7 +304,6 @@ class LastName extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      obscureText: true,
       controller: lastNameTextController,
       decoration: InputDecoration(
         icon: Icon(Icons.person_outlined),
@@ -277,7 +326,6 @@ class DOB extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      obscureText: true,
       controller: dobTextController,
       decoration: InputDecoration(
         icon: Icon(Icons.date_range),
@@ -300,34 +348,10 @@ class Address extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      obscureText: true,
       controller: addressTextController,
       decoration: InputDecoration(
         icon: Icon(Icons.home),
         hintText: "Address",
-      ),
-    );
-  }
-}
-
-class Password extends StatelessWidget {
-  const Password({
-    Key? key,
-    required this.passwordTextController,
-    required this.inputFieldStyle,
-  }) : super(key: key);
-
-  final TextEditingController passwordTextController;
-  final InputDecoration inputFieldStyle;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      obscureText: true,
-      controller: passwordTextController,
-      decoration: InputDecoration(
-        icon: Icon(Icons.security),
-        hintText: "Password",
       ),
     );
   }
@@ -346,7 +370,6 @@ class PhoneNumber extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      obscureText: true,
       controller: phoneNumberTextController,
       decoration: InputDecoration(
         icon: Icon(Icons.phone),
@@ -369,7 +392,6 @@ class Email extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      obscureText: true,
       controller: emailTextController,
       decoration: InputDecoration(
         icon: Icon(Icons.email),
@@ -392,7 +414,6 @@ class Balance extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      obscureText: true,
       controller: balanceTextController,
       decoration: InputDecoration(
         icon: Icon(Icons.attach_money),
