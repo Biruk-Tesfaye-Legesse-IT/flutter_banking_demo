@@ -9,50 +9,58 @@ abstract class TransactionState extends Equatable {
 
 class TransactionInitial extends TransactionState {}
 
-// ==================Transfer States===========================
+// +++++++++++++++++++++++ Client States ++++++++++++++++++++++++++++++++
 
-class TransferProcessing extends TransactionState {}
+// ==================Client Transfer States=================
 
-class TransferSuccess extends TransactionState {
+class ClientTransferProcessing extends TransactionState {}
+
+class ClientTransferSuccess extends TransactionState {
   final String transferMessage;
 
-  TransferSuccess({required this.transferMessage});
+  ClientTransferSuccess({required this.transferMessage});
   @override
   List<Object> get props => [transferMessage];
 }
 
-class TransferFailure extends TransactionState {
+class ClientTransferFailure extends TransactionState {
   final String error;
 
-  const TransferFailure({required this.error});
+  const ClientTransferFailure({required this.error});
 
   @override
   List<Object> get props => [error];
 //
   @override
-  String toString() => 'LoginFailure { error: $error }';
+  String toString() => 'ClientTransferFailure { error: $error }';
 }
 
-// =======================Withdraw States============================
+// ==================Client Withdraw States======================
 
-class WithdrawProcessing extends TransactionState {}
+class ClientWithdrawProcessing extends TransactionState {}
 
-class WithdrawSuccess extends TransactionState {
+class ClientWithdrawSuccess extends TransactionState {
   final withdrawMessage;
 
-  WithdrawSuccess({required this.withdrawMessage});
+  ClientWithdrawSuccess({required this.withdrawMessage});
   @override
   List<Object> get props => [withdrawMessage];
 }
 
-class WithdrawFailure extends TransactionState {
+class ClientWithdrawFailure extends TransactionState {
   final String error;
 
-  const WithdrawFailure({required this.error});
+  const ClientWithdrawFailure({required this.error});
 
   @override
   List<Object> get props => [error];
 //
   @override
-  String toString() => 'LoginFailure { error: $error }';
+  String toString() => 'ClientWithdrawFailure { error: $error }';
 }
+
+// +++++++++++++++++++++++ Agent States ++++++++++++++++++++++++++++++++
+
+
+
+// +++++++++++++++++++++++ Admin States ++++++++++++++++++++++++++++++++

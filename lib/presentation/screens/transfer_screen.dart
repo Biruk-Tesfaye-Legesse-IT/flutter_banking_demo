@@ -82,13 +82,13 @@ class StateCheckBloc extends StatelessWidget {
     BlocProvider.of<TransactionBloc>(context).state;
     return BlocConsumer<TransactionBloc, TransactionState>(
       listener: (context, transactionState) {
-        if (transactionState is TransferProcessing) {
+        if (transactionState is ClientTransferProcessing) {
           // final snackBar = SnackBar(content: Text("Login in progress"));
 
           CircularProgressIndicator();
         }
 
-        if (transactionState is TransferSuccess) {
+        if (transactionState is ClientTransferSuccess) {
           String message = transactionState.transferMessage;
 
           final snackBar = SnackBar(content: Text(message));
@@ -106,7 +106,7 @@ class StateCheckBloc extends StatelessWidget {
           // Navigator.pop(context);
         }
 
-        if (transactionState is TransferFailure) {
+        if (transactionState is ClientTransferFailure) {
           // buttonChild = Text(authState.errorMsg);
 
           final snackBar = SnackBar(content: Text(transactionState.error));
@@ -160,7 +160,7 @@ class TransferButton extends StatelessWidget {
       onPressed: () {
         final transactionBloc = BlocProvider.of<TransactionBloc>(context);
 
-        transactionBloc.add(TransferButtonPressed(
+        transactionBloc.add(ClientTransferButtonPressed(
             amount: double.parse(amountTextController.text),
             receiverAccount: accountTextController.text));
       },

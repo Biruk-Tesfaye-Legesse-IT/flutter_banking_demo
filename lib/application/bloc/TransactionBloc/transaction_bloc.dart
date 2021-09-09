@@ -20,12 +20,14 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   Stream<TransactionState> mapEventToState(
     TransactionEvent event,
   ) async* {
+    // +++++++++++++++++++++++ Client ++++++++++++++++++++++++++++++++
+
     // ======================== Transfer  ================================================
-    if (event is TransferButtonPressed) {
+    if (event is ClientTransferButtonPressed) {
       final amount = event.amount;
       final receiverAccountNumber = event.receiverAccount;
 
-      yield TransferProcessing();
+      yield ClientTransferProcessing();
 
       try {
         var transfer =
@@ -34,23 +36,23 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
         print(transfer);
 
         if (transfer != null) {
-          yield TransferSuccess(transferMessage: transfer);
+          yield ClientTransferSuccess(transferMessage: transfer);
         } else {
-          yield TransferFailure(
+          yield ClientTransferFailure(
               error: "Something went wrong. Please try again!");
         }
       } catch (error) {
-        yield TransferFailure(error: error.toString());
+        yield ClientTransferFailure(error: error.toString());
       }
     }
 
     // ========================  Withdraw  ================================================
 
-    if (event is WithdrawButtonPressed) {
+    if (event is ClientWithdrawButtonPressed) {
       final amount = event.amount;
       final agentAccount = event.agentAccount;
 
-      yield WithdrawProcessing();
+      yield ClientWithdrawProcessing();
 
       try {
         var withdraw =
@@ -59,14 +61,41 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
         print(withdraw);
 
         if (withdraw != null) {
-          yield WithdrawSuccess(withdrawMessage: withdraw);
+          yield ClientWithdrawSuccess(withdrawMessage: withdraw);
         } else {
-          yield WithdrawFailure(
+          yield ClientWithdrawFailure(
               error: "Something went wrong. Please try again!");
         }
       } catch (error) {
-        yield WithdrawFailure(error: error.toString());
+        yield ClientWithdrawFailure(error: error.toString());
       }
     }
+
+    // +++++++++++++++++++++++ Agent ++++++++++++++++++++++++++++++++
+
+    if (event is ClientWithdrawButtonPressed) {
+      final amount = event.amount;
+      final agentAccount = event.agentAccount;
+
+      yield ClientWithdrawProcessing();
+
+      try {
+        var withdraw =
+            await transactionRepository.transfer(agentAccount, amount);
+        print('$amount and $agentAccount');
+        print(withdraw);
+
+        if (withdraw != null) {
+          yield ClientWithdrawSuccess(withdrawMessage: withdraw);
+        } else {
+          yield ClientWithdrawFailure(
+              error: "Something went wrong. Please try again!");
+        }
+      } catch (error) {
+        yield ClientWithdrawFailure(error: error.toString());
+      }
+    }
+
+    // +++++++++++++++++++++++ Admin ++++++++++++++++++++++++++++++++
   }
 }
