@@ -62,7 +62,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } else if (event is ChangePassword) {
       yield Proccessing(message: "Changing password...");
       try {
-        var proccess = accountRepository.changePassword(event.password);
+        var proccess = await accountRepository.changePassword(event.password);
         yield ProccessFinished(message: proccess);
         print(proccess);
       } catch (error) {
@@ -71,7 +71,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } else if (event is SaveAccount) {
       yield Proccessing(message: "Saving account...");
       try {
-        var proccess = accountRepository.saveAccount(event.accountNumber);
+        var proccess = await accountRepository.saveAccount(event.accountNumber);
         yield ProccessFinished(message: proccess);
       } catch (error) {
         ProccessFailed(error: error.toString());
@@ -80,7 +80,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       yield Proccessing(message: "Removing account from list...");
       try {
         var proccess =
-            accountRepository.removeSavedAccount(event.accountNumber);
+            await accountRepository.removeSavedAccount(event.accountNumber);
         yield ProccessFinished(message: proccess);
       } catch (error) {
         ProccessFailed(error: error.toString());
@@ -89,7 +89,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       yield Proccessing(message: "Processing request...");
       try {
         var proccess =
-            accountRepository.blockUnblockAccount(event.accountNumber);
+            await accountRepository.blockUnblockAccount(event.accountNumber);
         yield ProccessFinished(message: proccess);
       } catch (error) {
         ProccessFailed(error: error.toString());
@@ -97,9 +97,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } else if (event is ChangeAccountType) {
       yield Proccessing(message: "Account type change in progress...");
       try {
-        var proccess = accountRepository.changeAccountType(
+        var proccess = await accountRepository.changeAccountType(
             event.accountNumber, event.accountType);
         yield ProccessFinished(message: proccess);
+      } catch (error) {
+        ProccessFailed(error: error.toString());
+      }
+    } else if (event is GetGeneralReport) {
+      yield Proccessing(message: "Getting Report...");
+      try {
+        var report = await accountRepository.getGeneralReport();
+        yield ReportLoaded(report: report);
       } catch (error) {
         ProccessFailed(error: error.toString());
       }

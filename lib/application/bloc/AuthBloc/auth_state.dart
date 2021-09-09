@@ -63,3 +63,11 @@ class ProccessFailed extends AuthState {
   @override
   String toString() => 'Request failure { error: $error }';
 }
+
+class ReportLoaded extends AuthState {
+  final report;
+
+  ReportLoaded({required this.report});
+  @override
+  List<Object> get props => [report];
+}

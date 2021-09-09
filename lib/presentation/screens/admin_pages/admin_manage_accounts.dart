@@ -9,10 +9,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 
 class AdminManageAccount extends StatelessWidget {
-  final int accountNumber;
+  final user;
 
   AdminManageAccount({
-    required this.accountNumber,
+    required this.user,
   });
 
   final repo = AccountRepository(
@@ -20,40 +20,30 @@ class AdminManageAccount extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(this.accountNumber);
-    return RepositoryProvider.value(
-        value: this.repo,
-        child: BlocProvider<AuthBloc>(
-          create: (context) => AuthBloc(accountRepository: this.repo)
-            ..add(GetAccount(accountNumber: this.accountNumber)),
-          child: BlocBuilder<AuthBloc, AuthState>(
-            builder: (context, state) {
-              if (state is AccountLoading) {
-                return CircularProgressIndicator();
-              } else if (state is AccountLoaded) {
-                var user = state.user;
-                return Scaffold(
-                  body: SafeArea(
-                    child: SingleChildScrollView(
-                      child: Container(
-                        //Top Container
-                        // color: AppColors.primaryWhite,
-                        child: Column(
-                          children: [
-                            BankName(),
-                            InfoCard('${user.accountType}',
-                                '${user.accountNumber}', '\$${user.balance}'),
-                          ],
-                        ),
-                      ),
-                    ),
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        if (state is AuthInitial) {
+          return Scaffold(
+            body: SafeArea(
+              child: SingleChildScrollView(
+                child: Container(
+                  //Top Container
+                  // color: AppColors.primaryWhite,
+                  child: Column(
+                    children: [
+                      BankName(),
+                      InfoCard('${user.accountType}', '${user.accountNumber}',
+                          '\$${user.balance}'),
+                    ],
                   ),
-                );
-              } else {
-                return Center();
-              }
-            },
-          ),
-        ));
+                ),
+              ),
+            ),
+          );
+        } else {
+          return CircularProgressIndicator();
+        }
+      },
+    );
   }
 }

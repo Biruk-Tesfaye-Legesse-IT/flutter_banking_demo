@@ -79,8 +79,7 @@ class StateCheckBloc extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => AdminManageAccount(
-                    accountNumber: int.parse(accountTextController.text))),
+                builder: (context) => AdminManageAccount(user: authState.user)),
           );
         }
 

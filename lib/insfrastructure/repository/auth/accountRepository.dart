@@ -46,6 +46,35 @@ class AccountRepository {
   Future getCurrentUser() async {
     return await dataProvider.getCurrentUser();
   }
+
+// ############ admin reports
+  Future getGeneralReport() async {
+    return await dataProvider.getReport();
+  }
+
+  Future getAllLoans() async {
+    Report data = await dataProvider.getReport();
+    List loanJsonList = data.loans;
+    var loans = loanJsonList.map((loan) => Loan.fromJson(loan)).toList();
+    return loans;
+  }
+
+  Future getAllDatePassedLoans() async {
+    Report data = await dataProvider.getReport();
+    List loanJsonList = data.loans;
+    var loans = loanJsonList
+        .expand((loan) => [if (loan['date_passed']) Loan.fromJson(loan)])
+        .toList();
+    return loans;
+  }
+
+  Future getAllAccounts() async {
+    Report data = await dataProvider.getReport();
+    List accountJsonList = data.allAccounts;
+    var accounts =
+        accountJsonList.map((account) => Account.fromJson(account)).toList();
+    return accounts;
+  }
 }
 
 class NetworkError extends Error {}
