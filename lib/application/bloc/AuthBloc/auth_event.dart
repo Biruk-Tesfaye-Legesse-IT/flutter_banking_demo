@@ -84,3 +84,5 @@ class ChangeAccountType extends AuthEvent {
   @override
   List<Object> get props => [accountNumber, accountType];
 }
+
+class GetGeneralReport extends AuthEvent {}

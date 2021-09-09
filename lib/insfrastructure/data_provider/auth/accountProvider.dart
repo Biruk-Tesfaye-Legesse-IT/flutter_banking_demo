@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+
 import 'dart:io';
 import 'package:final_demo/domain/models/models.dart';
 import 'package:final_demo/insfrastructure/data_provider/config.dart';
@@ -235,6 +236,23 @@ class AccountDataProvider {
 
     if (response.statusCode == 202) {
       return jsonDecode(response.body)['message'];
+    } else {
+      throw Exception(jsonDecode(response.body)['message']);
+    }
+  }
+
+  Future getReport() async {
+    final http.Response response = await httpClient.get(
+      Uri.http('$_baseUrl', '/api/admin/reports'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'token': await getToken()
+      },
+    );
+
+    if (response.statusCode == 200) {
+      Report report = Report.fromJson(jsonDecode(response.body));
+      return report;
     } else {
       throw Exception(jsonDecode(response.body)['message']);
     }
