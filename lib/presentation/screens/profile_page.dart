@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:final_demo/application/bloc/AuthBloc/auth_bloc.dart';
 import 'package:final_demo/insfrastructure/repository/auth/accountRepository.dart';
 import 'package:final_demo/insfrastructure/data_provider/auth/accountProvider.dart';
@@ -34,17 +36,7 @@ class ControlBloc extends StatelessWidget {
     return BlocProvider<AuthBloc>(
       create: (context) =>
           AuthBloc(accountRepository: this.repo)..add(GetMyAccount()),
-      child: BlocConsumer<AuthBloc, AuthState>(listener: (context, state) {
-        if (state is AccountLoading) {
-          CircularProgressIndicator();
-        }
-        if (state is Proccessing) {
-          CircularProgressIndicator();
-        }
-        if (state is ProccessFinished) {
-          SnackBar(content: Text(state.message.toString()));
-        }
-      }, builder: (context, state) {
+      child: BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
         if (state is AccountLoaded) {
           var user = state.user;
 
@@ -60,14 +52,7 @@ class ControlBloc extends StatelessWidget {
                       BankImage(),
                       ProfileCard('${user.accountNumber}', '${user.email}',
                           '${user.fullName}'),
-                      PasswordField(
-                          amountTextController: passwordTextController),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      ChangePasswordButton(
-                        passwordTextController: passwordTextController,
-                      )
+                      PasswordChangingSection(),
                     ],
                   ),
                 ),
@@ -76,6 +61,47 @@ class ControlBloc extends StatelessWidget {
           );
         } else {
           return Center();
+        }
+      }),
+    );
+  }
+}
+
+class PasswordChangingSection extends StatelessWidget {
+  final repo = AccountRepository(
+      dataProvider: AccountDataProvider(httpClient: http.Client()));
+  final passwordTextController = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => AuthBloc(accountRepository: repo),
+      child: BlocConsumer<AuthBloc, AuthState>(builder: (context, state) {
+        return Column(children: [
+          PasswordField(amountTextController: passwordTextController),
+          SizedBox(
+            height: 20,
+          ),
+          ChangePasswordButton(
+            passwordTextController: passwordTextController,
+          )
+        ]);
+      }, listener: (context, state) {
+        if (state is Proccessing) {
+          final snackBar = SnackBar(
+            content: Text(state.message),
+            duration: Duration(seconds: 1),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          sleep(Duration(seconds: 1));
+        } else if (state is ProccessFinished) {
+          final snackBar = SnackBar(
+            content: Text(state.message),
+            duration: Duration(seconds: 1),
+          );
+
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+          passwordTextController.clear();
         }
       }),
     );
