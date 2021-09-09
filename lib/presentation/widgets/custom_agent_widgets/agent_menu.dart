@@ -18,7 +18,7 @@ class AgentMenuLayout extends StatelessWidget {
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => RegisterClient()),
+            MaterialPageRoute(builder: (context) => ClientRegister()),
           );
         },
       ),
