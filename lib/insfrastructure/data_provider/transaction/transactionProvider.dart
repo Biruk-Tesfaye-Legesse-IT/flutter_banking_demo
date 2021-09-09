@@ -81,7 +81,7 @@ class TransactionDataProvider {
       return jsonDecode(response.body)['message'];
     } else {
       print(jsonDecode(response.body)['message']);
-      throw Exception("Tranfer Failed.");
+      throw Exception(jsonDecode(response.body)['message']);
     }
   }
 
@@ -102,7 +102,7 @@ class TransactionDataProvider {
       return jsonDecode(response.body);
     } else {
       print(jsonDecode(response.body)['message']);
-      throw Exception("Withdrawing Failed.");
+      throw Exception(jsonDecode(response.body)['message']);
     }
   }
 
@@ -123,7 +123,7 @@ class TransactionDataProvider {
       return jsonDecode(response.body);
     } else {
       print(jsonDecode(response.body)['message']);
-      throw Exception("Deposit Failed.");
+      throw Exception(jsonDecode(response.body)['message']);
     }
   }
 
@@ -144,7 +144,7 @@ class TransactionDataProvider {
       return jsonDecode(response.body);
     } else {
       print(jsonDecode(response.body)['message']);
-      throw Exception("Deposit Failed.");
+      throw Exception(jsonDecode(response.body)['message']);
     }
   }
 
@@ -165,7 +165,7 @@ class TransactionDataProvider {
       return jsonDecode(response.body);
     } else {
       print(jsonDecode(response.body)['message']);
-      throw Exception("Withdraw Failed.");
+      throw Exception(jsonDecode(response.body)['message']);
     }
   }
 
@@ -183,7 +183,7 @@ class TransactionDataProvider {
       return jsonDecode(response.body);
     } else {
       print(jsonDecode(response.body)['message']);
-      throw Exception('Payment Failed.');
+      throw Exception(jsonDecode(response.body)['message']);
     }
   }
 
@@ -201,7 +201,7 @@ class TransactionDataProvider {
       return jsonDecode(response.body);
     } else {
       print(jsonDecode(response.body)['message']);
-      throw Exception('Failed to delete transaction.');
+      throw Exception(jsonDecode(response.body)['message']);
     }
   }
 }

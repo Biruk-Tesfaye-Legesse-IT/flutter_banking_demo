@@ -7,21 +7,80 @@ abstract class AuthEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class AppStarted extends AuthEvent {
+class GetMyAccount extends AuthEvent {
   @override
-  String toString() => 'AppStarted';
+  List<Object> get props => [];
 }
 
-class LoggedIn extends AuthEvent {
-  // final String token;
+class GetAccount extends AuthEvent {
+  final accountNumber;
 
-  // // LoggedIn({required this.token}) : super([token]);
+  GetAccount({required this.accountNumber});
 
-  // @override
-  // String toString() => 'LoggedIn { token: $token }';
+  @override
+  List<Object> get props => [accountNumber];
 }
 
-class LoggedOut extends AuthEvent {
+class RegisterAgent extends AuthEvent {
+  final Agent agent;
+
+  RegisterAgent({required this.agent});
+
   @override
-  String toString() => 'LoggedOut';
+  List<Object> get props => [agent];
+}
+
+class RegisterClient extends AuthEvent {
+  final Client client;
+
+  RegisterClient({required this.client});
+
+  @override
+  List<Object> get props => [client];
+}
+
+class ChangePassword extends AuthEvent {
+  final String password;
+
+  ChangePassword({required this.password});
+
+  @override
+  List<Object> get props => [password];
+}
+
+class SaveAccount extends AuthEvent {
+  final accountNumber;
+
+  SaveAccount({required this.accountNumber});
+
+  @override
+  List<Object> get props => [accountNumber];
+}
+
+class RemoveFromSaved extends AuthEvent {
+  final accountNumber;
+
+  RemoveFromSaved({required this.accountNumber});
+
+  @override
+  List<Object> get props => [accountNumber];
+}
+
+class BlockUnblock extends AuthEvent {
+  final accountNumber;
+
+  BlockUnblock({required this.accountNumber});
+
+  @override
+  List<Object> get props => [accountNumber];
+}
+
+class ChangeAccountType extends AuthEvent {
+  final int accountType;
+  final accountNumber;
+
+  ChangeAccountType({required this.accountNumber, required this.accountType});
+
+  @override
+  List<Object> get props => [accountNumber, accountType];
 }

@@ -17,6 +17,7 @@ class Agent extends Equatable {
     required this.address,
     this.isBlocked, // Can't decide
     required this.budget,
+    this.commission,
     this.registeredUsers,
   });
 
@@ -32,6 +33,7 @@ class Agent extends Equatable {
   final String address;
   final bool? isBlocked;
   final double? budget;
+  final double? commission;
   final List? registeredUsers;
 
   @override
@@ -48,6 +50,7 @@ class Agent extends Equatable {
         address,
         isBlocked,
         budget,
+        commission,
         registeredUsers,
       ];
 
@@ -64,6 +67,7 @@ class Agent extends Equatable {
       phoneNumber: json['phone_number'],
       isBlocked: json['is_blocked'],
       budget: json['budget'],
+      commission: json['pending_commission_payement'],
       registeredUsers: json['registered_clients'] != Null
           ? json['registered_clients']
               .map((account) => Client.fromJson(account))
@@ -83,10 +87,11 @@ class Agent extends Equatable {
         'DOB': dob,
         'is_blocked': isBlocked,
         'budget': budget,
+        'pending_commission_payment': commission,
         'registered_clients':
             registeredUsers!.map((account) => account.toJson()).toList()
       };
   @override
   String toString() =>
-      'Agent { agent_id: $agentID, account_number: $accountNumber, first_name: $firstName, last_name: $lastName, fullname: $fullName,role: $role, address: $address, DOB: $dob, is_blocked: $isBlocked, budget: $budget, registered_users:$registeredUsers}';
+      'Agent { agent_id: $agentID, account_number: $accountNumber, first_name: $firstName, last_name: $lastName, fullname: $fullName,role: $role, address: $address, DOB: $dob, is_blocked: $isBlocked, budget: $budget, registered_users:$registeredUsers, pending_commission_payment: $commission}';
 }
