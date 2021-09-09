@@ -2,9 +2,11 @@
 // import 'package:final_demo/application/bloc/AuthBloc/auth_bloc.dart';
 import 'dart:io';
 
+import 'package:final_demo/application/bloc/LoanBloc/loan_bloc.dart';
 import 'package:final_demo/application/bloc/TransactionBloc/transaction_bloc.dart';
 // import 'package:final_demo/insfrastructure/data_provider/auth/accountProvider.dart';
 import 'package:final_demo/insfrastructure/data_provider/transaction/transactionProvider.dart';
+import 'package:final_demo/insfrastructure/insfrastructure.dart';
 // import 'package:final_demo/insfrastructure/repository/auth/accountRepository.dart';
 import 'package:final_demo/insfrastructure/repository/transaction/TransactionRepository.dart';
 import 'package:final_demo/presentation/config/route_generator.dart';
@@ -13,14 +15,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 
-import 'client_pages/client_pages_frame.dart';
+import 'client_pages_frame.dart';
 
-class TransferPage extends StatelessWidget {
+class ClientInstantLoanPage extends StatelessWidget {
   final accountTextController = TextEditingController();
   final amountTextController = TextEditingController();
   final formKey = GlobalKey<FormState>();
-  final repo = TransactionRepository(
-      dataProvider: TransactionDataProvider(httpClient: http.Client()));
+  final repo =
+      LoanRepository(dataProvider: LoanDataProvider(httpClient: http.Client()));
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +34,14 @@ class TransferPage extends StatelessWidget {
     );
 
     return BlocProvider(
-      create: (context) => TransactionBloc(transactionRepository: repo),
+      create: (context) => LoanBloc(loanRepository: repo),
       child: Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          toolbarHeight: 50,
+          iconTheme: IconThemeData(color: Colors.blue),
+          backgroundColor: Colors.white38,
+        ),
         body: SafeArea(
           child: SingleChildScrollView(
             child: Container(
@@ -44,17 +52,14 @@ class TransferPage extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(height: 20.0),
                       BankImage(),
                       SizedBox(height: 20.0),
                       AmountField(amountTextController: amountTextController),
                       SizedBox(height: 20.0),
-                      ReceiverAccountField(
-                          accountTextController: accountTextController),
                       SizedBox(height: 30.0),
                       StateCheckBloc(
-                          amountTextController: amountTextController,
-                          accountTextController: accountTextController),
+                        amountTextController: amountTextController,
+                      ),
                     ],
                   ),
                 ),
@@ -71,25 +76,23 @@ class StateCheckBloc extends StatelessWidget {
   const StateCheckBloc({
     Key? key,
     required this.amountTextController,
-    required this.accountTextController,
   }) : super(key: key);
 
-  final TextEditingController accountTextController;
   final TextEditingController amountTextController;
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<TransactionBloc>(context).state;
-    return BlocConsumer<TransactionBloc, TransactionState>(
-      listener: (context, transactionState) {
-        if (transactionState is TransferProcessing) {
+    BlocProvider.of<LoanBloc>(context).state;
+    return BlocConsumer<LoanBloc, LoanState>(
+      listener: (context, loanState) {
+        if (loanState is LoanRequestProcessing) {
           // final snackBar = SnackBar(content: Text("Login in progress"));
 
           CircularProgressIndicator();
         }
 
-        if (transactionState is TransferSuccess) {
-          String message = transactionState.transferMessage;
+        if (loanState is LoanRequestGranted) {
+          String message = loanState.message;
 
           final snackBar = SnackBar(content: Text(message));
 
@@ -106,20 +109,19 @@ class StateCheckBloc extends StatelessWidget {
           // Navigator.pop(context);
         }
 
-        if (transactionState is TransferFailure) {
+        if (loanState is LoanRequestFailed) {
           // buttonChild = Text(authState.errorMsg);
 
-          final snackBar = SnackBar(content: Text(transactionState.error));
+          final snackBar = SnackBar(content: Text(loanState.errorMsg));
 
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
       },
       builder: (ctx, authState) {
-        Widget buttonChild = Text("Transfer");
+        Widget buttonChild = Text("Request Loan");
 
         return TransferButton(
             amountTextController: amountTextController,
-            accountTextController: accountTextController,
             buttonChild: buttonChild);
       },
     );
@@ -136,6 +138,7 @@ class BankImage extends StatelessWidget {
     return Container(
       width: 400,
       height: MediaQuery.of(context).size.height / 3,
+
       // decoration: BoxDecoration(color: Colors.black),
       child: Image.asset('assets/images/transfer.jpg'),
     );
@@ -146,11 +149,9 @@ class TransferButton extends StatelessWidget {
   const TransferButton({
     Key? key,
     required this.amountTextController,
-    required this.accountTextController,
     required this.buttonChild,
   }) : super(key: key);
 
-  final TextEditingController accountTextController;
   final TextEditingController amountTextController;
   final Widget buttonChild;
 
@@ -158,11 +159,11 @@ class TransferButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        final transactionBloc = BlocProvider.of<TransactionBloc>(context);
+        final loanBloc = BlocProvider.of<LoanBloc>(context);
 
-        transactionBloc.add(TransferButtonPressed(
-            amount: double.parse(amountTextController.text),
-            receiverAccount: accountTextController.text));
+        loanBloc.add(LoanRequest(
+          amount: double.parse(amountTextController.text),
+        ));
       },
       child: buttonChild,
     );
@@ -184,26 +185,6 @@ class AmountField extends StatelessWidget {
       decoration: InputDecoration(
         icon: Icon(Icons.attach_money),
         hintText: "Amount",
-      ),
-    );
-  }
-}
-
-class ReceiverAccountField extends StatelessWidget {
-  const ReceiverAccountField({
-    Key? key,
-    required this.accountTextController,
-  }) : super(key: key);
-
-  final TextEditingController accountTextController;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      controller: accountTextController,
-      decoration: InputDecoration(
-        icon: Icon(Icons.account_box_sharp),
-        hintText: "Receiver Account Number",
       ),
     );
   }

@@ -5,6 +5,16 @@ import 'package:final_demo/insfrastructure/data_provider/config.dart';
 import 'package:final_demo/insfrastructure/data_provider/getToken.dart';
 import 'package:http/http.dart' as http;
 
+class MyException implements Exception {
+  final String message;
+  MyException({required this.message});
+
+  @override
+  String toString() {
+    return message;
+  }
+}
+
 class LoanDataProvider {
   final _baseUrl = baseURL;
   final http.Client httpClient;
@@ -40,10 +50,10 @@ class LoanDataProvider {
     var data = jsonDecode(response.body);
     if (response.statusCode == 201) {
       print(data['message']);
-      return data;
+      return data['message'];
     } else {
       print(data['message']);
-      throw Exception('Loan request failed.');
+      throw MyException(message: data['message']);
     }
   }
 
@@ -57,7 +67,7 @@ class LoanDataProvider {
     var data = jsonDecode(response.body);
     if (response.statusCode == 201) {
       print(data['message']);
-      return data;
+      return data['message'];
     } else {
       print(data['message']);
       throw Exception('Loan topup failed.');

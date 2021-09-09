@@ -7,16 +7,26 @@ abstract class LoanEvent extends Equatable {
   List<Object> get props => [];
 }
 
+// ===============Getting Info==============================
+
+class GetLoanInfo extends LoanEvent {}
+
+// ================Request=============================
+
 class LoanRequest extends LoanEvent {
   final double amount;
 
   LoanRequest({required this.amount});
 }
 
-class ViewLoanInfo extends LoanEvent {}
+// class ViewLoanInfo extends LoanEvent {}
 
-class PayLoan extends LoanEvent {
+// ===================Payment============================
+
+class TopUpLoan extends LoanEvent {
   final double amount;
 
-  PayLoan({required this.amount});
+  TopUpLoan({required this.amount});
 }
+
+class PayLoanInfull extends LoanEvent {}

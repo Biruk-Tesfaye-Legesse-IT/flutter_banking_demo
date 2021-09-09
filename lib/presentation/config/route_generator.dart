@@ -7,7 +7,7 @@ import 'package:final_demo/presentation/screens/saved_accounts.dart';
 import 'package:flutter/material.dart';
 import 'package:final_demo/presentation/screens/account_info.dart';
 import 'package:final_demo/presentation/screens/client_pages/client_pages_frame.dart';
-import 'package:final_demo/presentation/screens/transfer_screen.dart';
+import 'package:final_demo/presentation/screens/client_pages/client_transfer_screen.dart';
 // import 'package:final_demo/screens/other.dart';
 
 class RouteGenerator {
@@ -38,7 +38,7 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => HistoryPage());
 
       case TransferPageRoute:
-        return MaterialPageRoute(builder: (_) => TransferPage());
+        return MaterialPageRoute(builder: (_) => ClientTransferPage());
 
       case HomePage:
         switch (settings.arguments) {
