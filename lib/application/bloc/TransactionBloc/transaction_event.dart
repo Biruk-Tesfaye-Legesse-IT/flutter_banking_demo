@@ -49,9 +49,6 @@ class AgentDepositButtonPressed extends TransactionEvent {
   AgentDepositButtonPressed(
       {required this.amount, required this.clientAccount});
 
-// AgentDepositButtonPressed
-// AgentTransferButtonPressed
-// AdminDepositButtonPressed
   @override
   List<Object> get props => [amount, clientAccount];
 
@@ -97,16 +94,15 @@ class AgentWithdrawButtonPressed extends TransactionEvent {
 // +++++++++++++++++++++++ Admin Events ++++++++++++++++++++++++++++++++
 
 class AdminDepositButtonPressed extends TransactionEvent {
-  final String clientAccount;
+  final String agentAccount;
   final double amount;
 
-  AdminDepositButtonPressed(
-      {required this.amount, required this.clientAccount});
+  AdminDepositButtonPressed({required this.amount, required this.agentAccount});
 
   @override
-  List<Object> get props => [amount, clientAccount];
+  List<Object> get props => [amount, agentAccount];
 
   @override
   String toString() =>
-      'DepositButtonPressed { amount: $amount, clientAccount: $clientAccount }';
+      'DepositButtonPressed { amount: $amount, clientAccount: $agentAccount }';
 }

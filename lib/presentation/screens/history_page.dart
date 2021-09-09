@@ -3,6 +3,7 @@
 import 'package:final_demo/application/bloc/Historybloc/history_bloc.dart';
 import 'package:final_demo/insfrastructure/data_provider/transaction/transactionProvider.dart';
 import 'package:final_demo/insfrastructure/repository/transaction/TransactionRepository.dart';
+import 'package:final_demo/presentation/theme/color_const.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,7 +17,14 @@ class HistoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("My History")),
+        appBar: AppBar(
+            elevation: 0,
+            iconTheme: IconThemeData(color: Colors.blue),
+            backgroundColor: Colors.white38,
+            title: Text(
+              "My History",
+              style: TextStyle(color: Colors.black),
+            )),
         body: BlocProvider(
           create: (context) =>
               HistoryBloc(transactionRepository: transactionRepository)

@@ -61,6 +61,76 @@ class ClientWithdrawFailure extends TransactionState {
 
 // +++++++++++++++++++++++ Agent States ++++++++++++++++++++++++++++++++
 
+// ==================Agent Deposit States======================
 
+class AgentDepositProcessing extends TransactionState {}
+
+class AgentDepositSuccess extends TransactionState {
+  final String depositMessage;
+
+  AgentDepositSuccess({required this.depositMessage});
+  @override
+  List<Object> get props => [depositMessage];
+}
+
+class AgentDepositFailure extends TransactionState {
+  final String error;
+
+  const AgentDepositFailure({required this.error});
+
+  @override
+  List<Object> get props => [error];
+//
+  @override
+  String toString() => 'AgentDepositFailure { error: $error }';
+}
+
+// ==================Agent Withdraw States======================
+
+class AgentWithdrawProcessing extends TransactionState {}
+
+class AgentWithdrawSuccess extends TransactionState {
+  final withdrawMessage;
+
+  AgentWithdrawSuccess({required this.withdrawMessage});
+  @override
+  List<Object> get props => [withdrawMessage];
+}
+
+class AgentWithdrawFailure extends TransactionState {
+  final String error;
+
+  const AgentWithdrawFailure({required this.error});
+
+  @override
+  List<Object> get props => [error];
+//
+  @override
+  String toString() => 'ClientWithdrawFailure { error: $error }';
+}
 
 // +++++++++++++++++++++++ Admin States ++++++++++++++++++++++++++++++++
+
+// ==================Admin Deposit States======================
+
+class AdminDepositProcessing extends TransactionState {}
+
+class AdminDepositSuccess extends TransactionState {
+  final String depositMessage;
+
+  AdminDepositSuccess({required this.depositMessage});
+  @override
+  List<Object> get props => [depositMessage];
+}
+
+class AdminDepositFailure extends TransactionState {
+  final String error;
+
+  const AdminDepositFailure({required this.error});
+
+  @override
+  List<Object> get props => [error];
+//
+  @override
+  String toString() => 'AdminDepositFailure { error: $error }';
+}

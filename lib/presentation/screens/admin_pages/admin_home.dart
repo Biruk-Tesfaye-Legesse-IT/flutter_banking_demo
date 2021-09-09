@@ -3,6 +3,7 @@ import 'package:final_demo/presentation/widgets/bank_name.dart';
 import 'package:final_demo/application/bloc/AuthBloc/auth_bloc.dart';
 import 'package:final_demo/insfrastructure/repository/auth/accountRepository.dart';
 import 'package:final_demo/insfrastructure/data_provider/auth/accountProvider.dart';
+import 'package:final_demo/presentation/widgets/custom_admin_widgets/admin_menu.dart';
 import 'package:final_demo/presentation/widgets/custom_client_widgets/client_menu.dart';
 import 'package:final_demo/presentation/widgets/info_card.dart';
 // import 'package:final_demo/presentation/widgets/menu_card_layout.dart';
@@ -43,7 +44,7 @@ class AdminHomePage extends StatelessWidget {
                         NameCard('${user.fullName}', '${user.role}'),
                         InfoCard('Central Budget', 'A${user.accountNumber}',
                             '\$${user.bankBudget}'),
-                        ClientMenuLayout(),
+                        AdminMenuLayout(),
                       ],
                     ),
                   ),

@@ -1,7 +1,9 @@
 import 'package:final_demo/presentation/config/route_generator.dart';
 import 'package:final_demo/presentation/screens/client_pages/client_home.dart';
+import 'package:final_demo/presentation/screens/client_pages/client_instantLoan.dart';
+import 'package:final_demo/presentation/screens/client_pages/client_withdraw_screen.dart';
 import 'package:final_demo/presentation/screens/history_page.dart';
-import 'package:final_demo/presentation/screens/transfer_screen.dart';
+import 'package:final_demo/presentation/screens/client_pages/client_transfer_screen.dart';
 import 'package:final_demo/presentation/widgets/menu_card_layout.dart';
 import 'package:final_demo/presentation/widgets/route_cards.dart';
 import 'package:flutter/material.dart';
@@ -27,21 +29,33 @@ class ClientMenuLayout extends StatelessWidget {
             // Navigator.of(context).pushNamed('/userhome');
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => TransferPage()),
+              MaterialPageRoute(builder: (context) => ClientTransferPage()),
             );
           }),
       InkWell(
-        child: RouteCard(
-            "Instant Loan",
-            Icon(Icons.monetization_on, color: Colors.blue[800]),
-            Colors.lightGreen),
-      ),
+          child: RouteCard(
+              "Instant Loan",
+              Icon(Icons.monetization_on, color: Colors.blue[800]),
+              Colors.lightGreen),
+          onTap: () {
+            // Navigator.of(context).pushNamed('/userhome');
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ClientInstantLoanPage()),
+            );
+          }),
       InkWell(
-        child: RouteCard(
-            "Rquest Withdraw",
-            Icon(Icons.money_rounded, color: Colors.lightGreen[800]),
-            Colors.blue),
-      ),
+          child: RouteCard(
+              "Rquest Withdraw",
+              Icon(Icons.money_rounded, color: Colors.lightGreen[800]),
+              Colors.blue),
+          onTap: () {
+            // Navigator.of(context).pushNamed('/userhome');
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ClientWithdrawPage()),
+            );
+          }),
       InkWell(
         child: RouteCard("Transactions",
             Icon(Icons.history, color: Colors.blue[800]), Colors.lightGreen),

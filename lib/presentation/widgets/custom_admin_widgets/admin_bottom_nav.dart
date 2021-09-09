@@ -14,17 +14,17 @@ class AdminBottomNavigation extends StatelessWidget {
           icon: Icon(Icons.dashboard),
           label: 'Dashboard',
         ),
+        // BottomNavigationBarItem(
+        //   icon: Icon(Icons.payment_rounded),
+        //   label: 'Manage Loan',
+        // ),
+        // BottomNavigationBarItem(
+        //   icon: Icon(Icons.bookmark),
+        //   label: 'Saved Accounts',
+        // ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.bookmark),
-          label: 'Saved Accounts',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.settings),
-          label: 'Settings',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.settings),
-          label: 'Settings',
+          icon: Icon(Icons.person),
+          label: 'My Profile',
         ),
       ],
       elevation: 10,
