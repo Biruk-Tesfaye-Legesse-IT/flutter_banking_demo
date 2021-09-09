@@ -34,6 +34,7 @@ class AdminManageAccount extends StatelessWidget {
                       BankName(),
                       InfoCard('${user.accountType}', '${user.accountNumber}',
                           '\$${user.balance}'),
+                      Dropdown(),
                     ],
                   ),
                 ),
@@ -44,6 +45,46 @@ class AdminManageAccount extends StatelessWidget {
           return CircularProgressIndicator();
         }
       },
+    );
+  }
+}
+
+/// This is the stateful widget that the main application instantiates.
+class Dropdown extends StatefulWidget {
+  const Dropdown({Key? key}) : super(key: key);
+
+  @override
+  State<Dropdown> createState() => _MyStatefulWidgetState();
+}
+
+/// This is the private State class that goes with MyStatefulWidget.
+class _MyStatefulWidgetState extends State<Dropdown> {
+  String dropdownValue = 'Bronze';
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton<String>(
+      value: dropdownValue,
+      // icon: const Icon(Icons.arrow_downward),
+      // iconSize: 24,
+      elevation: 16,
+      style: const TextStyle(color: Colors.deepPurple),
+      underline: Container(
+        height: 4,
+        color: Colors.deepPurpleAccent,
+      ),
+      onChanged: (String? newValue) {
+        setState(() {
+          dropdownValue = newValue!;
+        });
+      },
+      items: <String>['Gold', 'Silver', 'Bronze']
+          .map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
     );
   }
 }

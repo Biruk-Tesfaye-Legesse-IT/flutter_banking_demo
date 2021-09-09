@@ -1,3 +1,4 @@
+import 'package:final_demo/presentation/screens/agent_pages/register_client.dart';
 import 'package:final_demo/presentation/screens/history_page.dart';
 import 'package:final_demo/presentation/widgets/menu_card_layout.dart';
 import 'package:final_demo/presentation/widgets/route_cards.dart';
@@ -13,22 +14,29 @@ class AgentMenuLayout extends StatelessWidget {
     return Container(
         child: MenuCardLayout(
       InkWell(
+        child: RouteCard("Add User", Icon(Icons.ac_unit), Colors.blue),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => RegisterClient()),
+          );
+        },
+      ),
+      InkWell(
+        child: RouteCard(
+            "Deposit to User", Icon(Icons.ac_unit), Colors.lightGreen),
+      ),
+      InkWell(
+        child: RouteCard("Transactions", Icon(Icons.ac_unit), Colors.blue),
         onTap: () {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => HistoryPage()),
           );
         },
-        child: RouteCard("Withdraw", Icon(Icons.ac_unit), Colors.blue),
       ),
       InkWell(
-        child: RouteCard("Withdraw", Icon(Icons.ac_unit), Colors.lightGreen),
-      ),
-      InkWell(
-        child: RouteCard("Withdraw", Icon(Icons.ac_unit), Colors.blue),
-      ),
-      InkWell(
-        child: RouteCard("Withdraw", Icon(Icons.ac_unit), Colors.lightGreen),
+        child: RouteCard("Request Pay", Icon(Icons.ac_unit), Colors.lightGreen),
       ),
     ));
   }
