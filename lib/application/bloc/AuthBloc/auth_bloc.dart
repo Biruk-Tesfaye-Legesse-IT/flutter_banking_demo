@@ -64,6 +64,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       try {
         var proccess = accountRepository.changePassword(event.password);
         yield ProccessFinished(message: proccess);
+        print(proccess);
       } catch (error) {
         ProccessFailed(error: error.toString());
       }

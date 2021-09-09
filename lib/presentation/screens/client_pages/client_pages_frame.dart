@@ -1,9 +1,7 @@
-import 'package:final_demo/presentation/theme/color_const.dart';
+import 'package:final_demo/presentation/screens/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:final_demo/presentation/screens/client_pages/client_home.dart';
-import 'package:final_demo/presentation/screens/other.dart';
 import 'package:final_demo/presentation/screens/saved_accounts.dart';
-import 'package:final_demo/presentation/screens/settings.dart';
 import 'package:final_demo/presentation/widgets/custom_client_widgets/client_bottom_nav.dart';
 import 'package:flutter/services.dart';
 
@@ -39,8 +37,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   static List<Widget> _widgetOptions = <Widget>[
     ClientHomePage(),
     SavedAccounts(),
-    SettingsPage(),
-    SettingsPage(),
+    ProfilePage(),
+    ProfilePage(),
   ];
 
   void _onItemTapped(int index) {

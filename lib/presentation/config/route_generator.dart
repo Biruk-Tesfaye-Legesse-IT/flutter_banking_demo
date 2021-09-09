@@ -5,7 +5,7 @@ import 'package:final_demo/presentation/screens/auth_page/login.dart';
 import 'package:final_demo/presentation/screens/history_page.dart';
 import 'package:final_demo/presentation/screens/saved_accounts.dart';
 import 'package:flutter/material.dart';
-import 'package:final_demo/presentation/screens/account_info.dart';
+import 'package:final_demo/presentation/screens/profile_page.dart';
 import 'package:final_demo/presentation/screens/client_pages/client_pages_frame.dart';
 import 'package:final_demo/presentation/screens/client_pages/client_transfer_screen.dart';
 // import 'package:final_demo/screens/other.dart';
