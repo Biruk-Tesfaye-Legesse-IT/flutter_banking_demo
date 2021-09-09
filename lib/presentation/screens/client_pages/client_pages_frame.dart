@@ -1,3 +1,4 @@
+import 'package:final_demo/presentation/screens/client_pages/client_manage_loan.dart';
 import 'package:final_demo/presentation/screens/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:final_demo/presentation/screens/client_pages/client_home.dart';
@@ -36,8 +37,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   //     TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static List<Widget> _widgetOptions = <Widget>[
     ClientHomePage(),
+    ManageLoan(),
     SavedAccounts(),
-    ProfilePage(),
     ProfilePage(),
   ];
 
